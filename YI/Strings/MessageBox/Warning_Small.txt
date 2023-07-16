@@ -1,0 +1,5 @@
+{n1}      Warning:
+{n2}Only someone small
+{n3}can go on from
+{n4}here.
+{End0F}

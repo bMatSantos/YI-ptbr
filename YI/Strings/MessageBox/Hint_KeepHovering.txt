@@ -1,0 +1,14 @@
+{n1}If Yoshi begins to
+{n2}fall after hovering
+{n3}press [B] again to
+{n4}hover some more.
+
+{n:}Use this technique{P}
+{Scr2}
+{n:}and the Magnifying
+{Scr2}
+{n:}Glass to get all 5
+{Scr2}
+{n:}red coins here.
+{Scr2}
+{End0F}

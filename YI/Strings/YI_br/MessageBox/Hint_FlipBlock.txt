@@ -1,0 +1,5 @@
+{n1}Acerte o bloco à
+{n2}direita com um ovo
+{n3}para girar certas
+{n4}plataformas!
+{End0F}

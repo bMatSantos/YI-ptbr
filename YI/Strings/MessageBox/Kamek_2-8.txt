@@ -1,0 +1,14 @@
+{n1}Yoshi-dear, that
+{n2}baby is going to
+{n3}cause disaster to
+{n4}befall the Koopas.
+
+{n:}So give him here{P}
+{Scr2}
+{n:}before you
+{Scr2}
+{n:}accidently get
+{Scr2}
+{n:}hurt!
+{Scr2}
+{End0F}

@@ -1,0 +1,12 @@
+{n1}This dog's name is
+{n2}"Poochy." He is
+{n3}cute, isn't he?
+{n4}Hitch a ride!
+
+{n:}He runs in the{P}
+{Scr2}
+{n:}direction that
+{Scr2}
+{n:}Yoshi faces.
+{Scr2}
+{End0F}

@@ -1,0 +1,14 @@
+{n1}Jogue um ovo
+{n2}naquela seta
+{n3}e então...
+{n4}Tcharam!
+
+{n:}Com ele,você pode{P}
+{Scr2}
+{n:}pegar as moedas
+{Scr2}
+{n:}que estão embaixo!
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

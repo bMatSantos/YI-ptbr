@@ -1,0 +1,10 @@
+{n1}Do you remember?
+{n2}Press [Y] and [DOWN]
+{n3}on [DPAD] to make an
+{n4}egg.
+
+{n:}Press [A] to throw{P}
+{Scr2}
+{n:}an egg.
+{Scr2}
+{End0F}

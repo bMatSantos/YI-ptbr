@@ -1,0 +1,19 @@
+{n1}    Making eggs:
+{D1n2}
+
+{n:}Grab an enemy with{P}
+{Scr2}
+{n:}[Y],then press [DOWN]
+{Scr2}
+{n:}on [DPAD] to make an
+{Scr2}
+{n:}egg.
+{Scr2}
+
+{n:}Now try throwing{P}
+{Scr2}
+{n:}the egg,
+{Scr2}
+{n:}press [A]!
+{Scr2}
+{End0F}

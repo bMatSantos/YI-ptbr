@@ -1,0 +1,14 @@
+{n1}Boas-vindas à
+{n2}Ilha Yoshi,o lar de
+{n3}todos os Yoshis.
+{n4}
+
+{n:}Está havendo uma{P}
+{Scr2}
+{n:}comoção graças
+{Scr2}
+{n:}ao bebê que caiu
+{Scr2}
+{n:}do céu.
+{Scr2}
+{End0F}

@@ -1,0 +1,12 @@
+{n1}   Hovering Jump:
+{n2}By holding [B]
+{n3}down, you can
+{n4}hover in the air
+
+{n:}for a short time.{P}
+{Scr2}
+{n:}Make the extra
+{Scr2}
+{n:}effort!
+{Scr2}
+{End0F}

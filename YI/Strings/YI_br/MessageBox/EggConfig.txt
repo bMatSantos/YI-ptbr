@@ -1,0 +1,14 @@
+{n1}Há duas
+{n2}configurações
+{n3}de controle
+{n4}para atirar ovos.
+
+{n:}Gostaria de trocar{P}
+{Scr2}
+{n:}a configuração
+{Scr2}
+{n:}atual?
+{Scr2}
+{n:}  [>]Não      Sim
+{Scr2}
+{End52}

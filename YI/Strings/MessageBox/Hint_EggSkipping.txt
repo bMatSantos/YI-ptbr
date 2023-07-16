@@ -1,0 +1,14 @@
+{n1}You can get these
+{n2}coins directly,
+{n3}but let's use an
+{n4}egg!
+
+{n:}It will skip on the{P}
+{Scr2}
+{n:}surface of the
+{Scr2}
+{n:}water to get the
+{Scr2}
+{n:}coins.
+{Scr2}
+{End0F}

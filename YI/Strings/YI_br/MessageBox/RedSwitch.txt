@@ -1,0 +1,5 @@
+{n1}Pise no [!] quando
+{n2}achar um.Você
+{n3}descobrirá uma
+{n4}passagem secreta!
+{End0F}

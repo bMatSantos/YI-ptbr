@@ -1,0 +1,32 @@
+{n1}         ROULETTE
+{n2}
+{n3}      1 UP Chance!
+{n4}
+
+{n:}Set the number of{P}
+{Scr2}
+{n:}Yoshies with [DPAD].
+{Scr2}
+{n:}Press [A] to start
+{Scr2}
+{n:}and [A] to stop.
+{Scr2}
+
+{n:}The combination of{P}
+{Scr2}
+{n:}the 2 tumblers and
+{Scr2}
+{n:}number of Yoshies
+{Scr2}
+{n:}give you 1 UPs!
+{Scr2}
+
+{n:}You can not play{P}
+{Scr2}
+{n:}this game if you
+{Scr2}
+{n:}have only 1 Yoshi
+{Scr2}
+{n:}remaining.
+{Scr2}
+{End0F}

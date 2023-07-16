@@ -1,0 +1,12 @@
+{n1}   - Salto Bomba -
+{D2n2}
+
+{n:}Aperte [DOWN] no [DPAD] em{P}
+{Scr2}
+{n:}pleno ar para dar
+{Scr2}
+{n:}um Salto Bomba.
+{Scr2}
+{n:}Que maneiro!
+{Scr2}
+{End0F}

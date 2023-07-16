@@ -1,0 +1,5 @@
+{n1}These types of
+{n2}walls may be
+{n3}destroyed by
+{n4}throwing eggs.
+{End0F}

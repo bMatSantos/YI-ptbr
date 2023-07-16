@@ -1,0 +1,5 @@
+{n1}Step on [!] when
+{n2}you find them.
+{n3}Here you will find
+{n4}a secret entrance[.]
+{End0F}

@@ -1,0 +1,5 @@
+{n1}Pegue com a língua
+{n2}uma melancia verde
+{n3}e aperte [Y] para
+{n4}disparar sementes.
+{End0F}

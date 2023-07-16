@@ -1,0 +1,23 @@
+{n1}      FLIP CARDS
+{n2}
+{n3}     Item Chance!
+{n4}
+
+{n:}Aim with the{P}
+{Scr2}
+{n:}cursor and press
+{Scr2}
+{n:}[A]. Collect the
+{Scr2}
+{n:}item shown.
+{Scr2}
+
+{n:}If you get Kamek,{P}
+{Scr2}
+{n:}you lose all the
+{Scr2}
+{n:}items. Hit "Exit"
+{Scr2}
+{n:}to quit.
+{Scr2}
+{End0F}

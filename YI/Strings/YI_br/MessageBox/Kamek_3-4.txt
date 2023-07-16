@@ -1,0 +1,5 @@
+{n1}Bom trabalho,
+{n2}Yoshi! Agora você
+{n3}será a comida do
+{n4}Saponildo! Hi hi hi!
+{End0F}

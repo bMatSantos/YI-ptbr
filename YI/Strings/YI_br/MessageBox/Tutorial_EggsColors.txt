@@ -1,0 +1,23 @@
+{n1}Ovos amarelos
+{n2}geram moedas;
+{n3}ovos vermelhos,
+{n4}2 [*] Estrelas;
+
+{n:}e ovos brilhantes,{P}
+{Scr2}
+{n:}moedas vermelhas.
+{Scr2}
+{n:}Quando quicam nas
+{Scr2}
+{n:}paredes,
+{Scr2}
+
+{n:}eles mudam de cor.{P}
+{Scr2}
+{n:}Acerte um inimigo
+{Scr2}
+{n:}para obter esses
+{Scr2}
+{n:}prêmios.
+{Scr2}
+{End0F}

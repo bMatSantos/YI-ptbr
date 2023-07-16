@@ -1,0 +1,5 @@
+{n1}Kamek, it's too
+{n2}noisy in here!!
+{n3}I wanna go
+{n4}sweepy-byyye!!!
+{End0F}

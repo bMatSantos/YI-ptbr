@@ -1,0 +1,23 @@
+{n1}
+{n2}       GUERRA DE
+{n3}        SEMENTES
+{n4}
+
+{n:}Pegue uma melancia{P}
+{Scr2}
+{n:}e atire semente no
+{Scr2}
+{n:}inimigo o mais
+{Scr2}
+{n:}rápido possível.
+{Scr2}
+
+{n:}Reduza o medidor{P}
+{Scr2}
+{n:}de energia do seu
+{Scr2}
+{n:}inimigo a zero
+{Scr2}
+{n:}para vencer!
+{Scr2}
+{End0F}

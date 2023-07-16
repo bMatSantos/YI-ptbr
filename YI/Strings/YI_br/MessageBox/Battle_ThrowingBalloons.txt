@@ -1,0 +1,32 @@
+{n1}
+{n2}  BATATÃO QUENTE
+{n3}
+{n4}
+
+{n:}Para passar o{P}
+{Scr2}
+{n:}balão,aperte os
+{Scr2}
+{n:}botões na ordem
+{Scr2}
+{n:}apresentada.
+{Scr2}
+
+{n:}O tempo do jogo é{P}
+{Scr2}
+{n:}curto.Se o balão
+{Scr2}
+{n:}estourar em você,
+{Scr2}
+{n:}você perde.
+{Scr2}
+
+{n:}{P}
+{Scr2}
+{n:}Ganhe vidas extras
+{Scr2}
+{n:}se vencer!
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

@@ -1,0 +1,5 @@
+{n1}Para destruir
+{n2}paredes como esta,
+{n3}é só jogar ovos
+{n4}nelas.
+{End0F}

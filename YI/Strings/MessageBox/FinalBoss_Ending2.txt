@@ -1,0 +1,5 @@
+{n1}Yoshi, why did you
+{n2}do this???
+{n3}Young Master, let
+{n4}me help you! Here!
+{End0F}

@@ -1,0 +1,23 @@
+{n1}       VIRA-VIRA
+{n2}
+{n3}   Chance de item!
+{n4}
+
+{n:}Mire o cursor e{P}
+{Scr2}
+{n:}aperte [A] para
+{Scr2}
+{n:}virar e receber
+{Scr2}
+{n:}os itens na tela!
+{Scr2}
+
+{n:}Se virar um Kamek,{P}
+{Scr2}
+{n:}você perde tudo.
+{Scr2}
+{n:}Acerte em "SAIR"
+{Scr2}
+{n:}para terminar.
+{Scr2}
+{End0F}

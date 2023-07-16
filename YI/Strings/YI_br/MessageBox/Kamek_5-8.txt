@@ -1,0 +1,14 @@
+{n1}Não...! Você...
+{n2}não,uh,n-nunca
+{n3}irá entrar no
+{n4}Reino de Bauser!
+
+{n:}Vou te exilar e{P}
+{Scr2}
+{n:}você irá brilhar
+{Scr2}
+{n:}igual estrela no
+{Scr2}
+{n:}céu! SUMA DAQUI!!
+{Scr2}
+{End0F}

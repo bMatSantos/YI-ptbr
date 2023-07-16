@@ -1,0 +1,14 @@
+{n1}There are two
+{n2}Controller
+{n3}Configurations
+{n4}for egg throwing[.]
+
+{n:}Would you like to{P}
+{Scr2}
+{n:}switch?
+{Scr2}
+{n:}
+{Scr2}
+{n:}  [>]No        Yes
+{Scr2}
+{End52}

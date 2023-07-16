@@ -1,0 +1,30 @@
+{n1}
+{n2}        THROWING
+{n3}        BALLOONS
+{n4}
+
+{n:}To throw the{P}
+{Scr2}
+{n:}balloon, key in the
+{Scr2}
+{n:}button sequences
+{Scr2}
+{n:}as shown.
+{Scr2}
+
+{n:}The game time is{P}
+{Scr2}
+{n:}limited. If the
+{Scr2}
+{n:}balloon pops on
+{Scr2}
+{n:}you, then you lose
+{Scr2}
+
+{n:}{P}
+{Scr2}
+{n:}Collect an item
+{Scr2}
+{n:}if you win!
+{Scr2}
+{End0F}

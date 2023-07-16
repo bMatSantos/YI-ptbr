@@ -1,0 +1,23 @@
+{n1}Esta é uma fase
+{n2}de gelo.Cuidado!
+{n3}Está escorregadio
+{n4}e difícil de andar.
+
+{n:}Com uma melancia{P}
+{Scr2}
+{n:}vermelha,você
+{Scr2}
+{n:}pode cuspir fogo
+{Scr2}
+{n:}três vezes.
+{Scr2}
+
+{n:}Use elas para{P}
+{Scr2}
+{n:}derreter o gelo
+{Scr2}
+{n:}ou derrotar os
+{Scr2}
+{n:}inimigos.
+{Scr2}
+{End0F}

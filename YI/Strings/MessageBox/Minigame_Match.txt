@@ -1,0 +1,23 @@
+{n1}    MATCH  CARDS
+{n2}
+{n3}    Item  Chance!
+{n4}
+
+{n:}Flip cards over in{P}
+{Scr2}
+{n:}pairs. Receive the
+{Scr2}
+{n:}items shown on
+{Scr2}
+{n:}matched pairs only
+{Scr2}
+
+{n:}Continue flipping{P}
+{Scr2}
+{n:}until you have
+{Scr2}
+{n:}failed to match
+{Scr2}
+{n:}twice.
+{Scr2}
+{End0F}

@@ -1,0 +1,5 @@
+{n1}Give it up Yoshi,
+{n2}you cutie without
+{n3}a navel! Ooopp-
+{n4}forget it ...
+{End0F}

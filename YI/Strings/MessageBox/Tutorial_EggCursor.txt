@@ -1,0 +1,12 @@
+{n1}When throwing,
+{n2}you may stop the
+{n3}aiming cursor by
+{n4}holding [L] or [R][.]
+
+{n:}This can greatly{P}
+{Scr2}
+{n:}increase your
+{Scr2}
+{n:}accuracy.
+{Scr2}
+{End0F}

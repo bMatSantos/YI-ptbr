@@ -1,0 +1,14 @@
+{n1}Press "Start" to
+{n2}display your
+{n3}score. To use
+{n4}special items, use
+
+{n:}[LEFT] and [RGHT] on [DPAD] to{P}
+{Scr2}
+{n:}choose an item
+{Scr2}
+{n:}and press [A].
+{Scr2}
+{n:}To exit, press [B][.]
+{Scr2}
+{End0F}

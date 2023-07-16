@@ -1,0 +1,30 @@
+{n1} - Atirando ovos -
+{D3n2}
+
+{n:}Aperte e segure [A]{P}
+{Scr2}
+{n:}e a sua mira vai
+{Scr2}
+{n:}começar a se
+{Scr2}
+{n:}mover.
+{Scr2}
+
+{n:}Solte o [A]{P}
+{Scr2}
+{n:}para atirar o ovo!
+{Scr2}
+{n:}Ao achar uma [?],
+{Scr2}
+{n:}jogue um ovo nela;
+{Scr2}
+
+{n:}algo legal pode{P}
+{Scr2}
+{n:}acontecer! Para
+{Scr2}
+{n:}cancelar a mira,
+{Scr2}
+{n:}aperte [DOWN] no [DPAD].
+{Scr2}
+{End0F}

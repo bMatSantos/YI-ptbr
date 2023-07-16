@@ -1,0 +1,14 @@
+{n1}- Flor Sorridente -
+{n2}Pegue 5 para obter
+{n3}1VD! Elas também
+{n4}te darão pontos,
+
+{n:}além de aparecerem{P}
+{Scr2}
+{n:}na roleta do
+{Scr2}
+{n:}Anel Final!
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

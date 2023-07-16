@@ -1,0 +1,14 @@
+{n1}Argh,Yoshi! Você
+{n2}deve ser bem forte
+{n3}pra ter chegado
+{n4}até aqui...
+
+{n:}Mas saiba que{P}
+{Scr2}
+{n:}essa lesma aqui
+{Scr2}
+{n:}não tem fraqueza
+{Scr2}
+{n:}alguma!
+{Scr2}
+{End0F}

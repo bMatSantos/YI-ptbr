@@ -1,0 +1,21 @@
+{n1}This is an icy
+{n2}stage. Be careful
+{n3}it is slippery and
+{n4}difficult to walk.
+
+{n:}Grab a red{P}
+{Scr2}
+{n:}watermelon and
+{Scr2}
+{n:}you can breathe
+{Scr2}
+{n:}fire three times.
+{Scr2}
+
+{n:}Use it to melt ice{P}
+{Scr2}
+{n:}or attack your
+{Scr2}
+{n:}enemies.
+{Scr2}
+{End0F}

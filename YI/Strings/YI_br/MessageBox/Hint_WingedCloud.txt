@@ -1,0 +1,5 @@
+{n1}Acerte o [?] com um
+{n2}ovo para virar um
+{n3}helicóptero.Ache 5
+{n4}moedas vermelhas.
+{End0F}

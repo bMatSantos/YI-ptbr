@@ -1,0 +1,14 @@
+{n1}Quando cair após
+{n2}um Salto Pairante,
+{n3}aperte [B] para
+{n4}pairar de novo.
+
+{n:}Use essa técnica e{P}
+{Scr2}
+{n:}a Lupa Reveladora
+{Scr2}
+{n:}para pegar as 5
+{Scr2}
+{n:}moedas vermelhas.
+{Scr2}
+{End0F}

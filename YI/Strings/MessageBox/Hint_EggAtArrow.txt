@@ -1,0 +1,12 @@
+{n1}Try to throw an
+{n2}egg at the arrow,
+{n3}and ...
+{n4}Hello!
+
+{n:}You can get the{P}
+{Scr2}
+{n:}coins placed
+{Scr2}
+{n:}underneath!
+{Scr2}
+{End0F}

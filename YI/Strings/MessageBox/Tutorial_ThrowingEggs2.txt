@@ -1,0 +1,30 @@
+{n1}   Throwing eggs:
+{D3n2}
+
+{n:}Press and hold [A]{P}
+{Scr2}
+{n:}and the aiming
+{Scr2}
+{n:}cursor will begin
+{Scr2}
+{n:}to move.
+{Scr2}
+
+{n:}Release [A] to{P}
+{Scr2}
+{n:}throw the egg!
+{Scr2}
+{n:}When you find [?]
+{Scr2}
+{n:}hit it with an egg.
+{Scr2}
+
+{n:}Cool stuff will{P}
+{Scr2}
+{n:}happen! To cancel
+{Scr2}
+{n:}the throw, press
+{Scr2}
+{n:}[DOWN] on [DPAD].
+{Scr2}
+{End0F}

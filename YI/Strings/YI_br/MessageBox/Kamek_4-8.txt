@@ -1,0 +1,5 @@
+{n1}Vai,meu Kupa!
+{n2}Vire-o pelo avesso
+{n3}e mostre do que
+{n4}somos capazes!
+{End0F}

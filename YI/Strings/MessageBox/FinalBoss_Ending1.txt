@@ -1,0 +1,14 @@
+{n1}How dare you?!
+{n2}It's not fair ...
+{n3}You are such a
+{n4}meanie ...
+
+{n:}Someday ...{P}
+{Scr2}
+{n:}We will be back ...
+{Scr2}
+{n:}You'll see!
+{Scr2}
+{n:}Waaaaaah ...
+{Scr2}
+{End0F}

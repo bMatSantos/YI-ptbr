@@ -1,0 +1,14 @@
+{n1}Como ousa?! Isso
+{n2}não é justo...
+{n3}Você é muito
+{n4}cruel...!
+
+{n:}Um dia... isso{P}
+{Scr2}
+{n:}vai ter volta!
+{Scr2}
+{n:}Você verá!
+{Scr2}
+{n:}Crááááá...
+{Scr2}
+{End0F}

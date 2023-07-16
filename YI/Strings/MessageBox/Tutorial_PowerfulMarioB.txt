@@ -1,0 +1,14 @@
+{n1}Touch a Super
+{n2}Star and become
+{n3}Powerful Mario!
+{n4}This is super!!
+
+{n:}Dash with [Y]!{P}
+{Scr2}
+{n:}Float in the air!!
+{Scr2}
+{n:}Run up a wall!!!
+{Scr2}
+{n:}You are invincible!
+{Scr2}
+{End0F}

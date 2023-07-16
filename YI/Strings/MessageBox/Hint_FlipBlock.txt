@@ -1,0 +1,5 @@
+{n1}Hit the Block to
+{n2}the right with an
+{n3}egg and some
+{n4}platforms will flip!
+{End0F}

@@ -1,0 +1,5 @@
+{n1}Você sabia? Você
+{n2}pode pegar uma
+{n3}Roda Seta e usá-la
+{n4}em outro lugar!
+{End0F}

@@ -1,0 +1,41 @@
+{n1}Se o Bebê Mario
+{n2}cair do Yoshi,o
+{n3}tempo no canto da
+{n4}tela vai diminuir.
+
+{n:}Ao chegar a 0,{P}
+{Scr2}
+{n:}os subalternos
+{Scr2}
+{n:}do Kamek virão
+{Scr2}
+{n:}sequestrá-lo!
+{Scr2}
+
+{n:}Recuperando o{P}
+{Scr2}
+{n:}bebê,o Contador
+{Scr2}
+{n:}Estelar aos poucos
+{Scr2}
+{n:}aumenta até 10,
+{Scr2}
+
+{n:}porém,quanto mais{P}
+{Scr2}
+{n:}[*] estrelas você
+{Scr2}
+{n:}pegar,mais seguro
+{Scr2}
+{n:}você ficará.
+{Scr2}
+
+{n:}Passe o Bebê Mario{P}
+{Scr2}
+{n:}para o próximo
+{Scr2}
+{n:}Yoshi o mais rápido 
+{Scr2}
+{n:}possível!
+{Scr2}
+{End0F}

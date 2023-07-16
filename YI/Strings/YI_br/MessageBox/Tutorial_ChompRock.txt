@@ -1,0 +1,14 @@
+{n1}Essa rocha é bem
+{n2}útil.Empurre-a
+{n3}para rolar e
+{n4}esmagar inimigos.
+
+{n:}Se a rocha ficar{P}
+{Scr2}
+{n:}presa,suba em
+{Scr2}
+{n:}um de seus lados
+{Scr2}
+{n:}para que ela role.
+{Scr2}
+{End0F}

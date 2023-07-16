@@ -1,0 +1,14 @@
+{n1}      CAÇA-VIDAS 
+{n2}
+{n3}   Chance de 1VD!
+{n4}
+
+{n:}É a sua chance de{P}
+{Scr2}
+{n:}ganhar mais vidas.
+{Scr2}
+{n:}Aperte [A] e pare
+{Scr2}
+{n:}cada roleta!
+{Scr2}
+{End0F}

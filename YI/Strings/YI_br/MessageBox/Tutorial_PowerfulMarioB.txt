@@ -1,0 +1,14 @@
+{n1}Demais! Pegue
+{n2}uma Superestrela
+{n3}e vire o Mario 
+{n4}Superpoderoso!
+
+{n:}Corra com o [Y]!{P}
+{Scr2}
+{n:}Flutue por aí!!
+{Scr2}
+{n:}Suba nas paredes!
+{Scr2}
+{n:}Você é invencível!!
+{Scr2}
+{End0F}

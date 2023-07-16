@@ -1,0 +1,14 @@
+{n1}There are very
+{n2}dangerous Donut
+{n3}Lifts in this
+{n4}stage.
+
+{n:}They will fall{P}
+{Scr2}
+{n:}shortly after you
+{Scr2}
+{n:}stand on them.
+{Scr2}
+{n:}Step lightly!
+{Scr2}
+{End0F}

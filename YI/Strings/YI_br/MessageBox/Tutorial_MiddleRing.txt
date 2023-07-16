@@ -1,0 +1,5 @@
+{n1}Este é o Anel
+{n2}Intermediário.Você
+{n3}poderá recomeçar
+{n4}a fase daqui.
+{End0F}

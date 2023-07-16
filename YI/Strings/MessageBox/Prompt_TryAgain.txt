@@ -1,0 +1,5 @@
+{n1}      [Yx]{Life}
+{n2}Try this stage
+{n3}again?
+{n4}  [>]Yes      No
+{End50}

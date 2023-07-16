@@ -1,0 +1,12 @@
+{n1}Yellow eggs create
+{n2}coins. Red eggs
+{n3}create 2 Stars [*][.]
+{n4}Flashing eggs???
+
+{n:}Hit an enemy to{P}
+{Scr2}
+{n:}receive these
+{Scr2}
+{n:}prizes.
+{Scr2}
+{End0F}

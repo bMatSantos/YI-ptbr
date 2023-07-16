@@ -1,0 +1,5 @@
+{n1}Great job, Yoshi!
+{n2}Now, you will be
+{n3}Froggy's lunch!!
+{n4}Hee, hee, hee!
+{End0F}

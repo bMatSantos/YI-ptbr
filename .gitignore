@@ -1,0 +1,11 @@
+*.bin
+*.sfc
+*.cbn
+*.lz1
+*.lz16
+Global/
+Firmware/
+Framework Changelog.txt
+Framework Readme.txt
+*.brr
+*.zip

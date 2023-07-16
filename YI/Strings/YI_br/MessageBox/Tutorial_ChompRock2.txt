@@ -1,0 +1,5 @@
+{n1}Essa é uma Rocha
+{n2}Chomp.Empurre-a
+{n3}por aí para ver
+{n4}o que vai "rolar"!
+{End0F}

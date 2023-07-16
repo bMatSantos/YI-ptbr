@@ -1,3 +1,19 @@
+# Yoshi's Island Tradução PT-BR / Fan Translation
+#### [PT]
+
+Este fork contém todas as edições do disassembly necessárias para traduzi-lo para português brasileiro.
+Toda seção nova foi marcada com [BR]. Algumas labels também foram atualizadas devido a novas descobertas durante as pesquisas do projeto.
+
+Download na página de releases. Info original logo abaixo.
+
+#### [EN]
+
+This fork contains all disassembly edits needed in order to translate it to Brazilian Portuguese.
+Each new section is marked with a [BR]. Some labels were also updated due to new discoveries during the project researches.
+
+Download on the Releases page. Original info down below.
+
+#
 
 This is a disassembly of Super Mario World 2: Yoshi's Island for the SNES with support for the following ROM versions:
 - USA V1.0 (This disassembly is based off this version)

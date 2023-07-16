@@ -1,3 +1,4 @@
+!RAM_YI_Global_FrameCounter = $000030
 
 !RAM_YI_Level_LevelDataPtrLo = $000032
 !RAM_YI_Level_LevelDataPtrHi = !RAM_YI_Level_LevelDataPtrLo+$01
@@ -32,6 +33,15 @@
 !RAM_YI_Global_SoundQueueSizeLo = $000057
 !RAM_YI_Global_SoundQueueSizeHi = !RAM_YI_Global_SoundQueueSizeLo+$01
 !RAM_YI_Global_SoundQueue = $000059
+
+; Game Over screen
+!RAM_YI_GameOver_CursorPos = $0000C3
+!RAM_YI_GameOver_IdleLettersTimer = $0000C8
+
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	!RAM_YI_RegionErrorMsgFlag = $000111
+	!RAM_YI_RegionMsgTimer = $00002E
+endif
 
 !RAM_YI_Global_CurrentGameMode = $000118
 
@@ -122,6 +132,15 @@
 !RAM_YI_Level_CurrentItemMemoryPageLo = $0003BE
 !RAM_YI_Level_CurrentItemMemoryPageHi = !RAM_YI_Level_CurrentItemMemoryPageLo+$01
 
+!RAM_YI_IO_ControllerHold1P1 = $00093C
+!RAM_YI_IO_ControllerHold2P1 = $00093D
+!RAM_YI_IO_ControllerPress1P1 = $00093E
+!RAM_YI_IO_ControllerPress2P1 = $00093F
+!RAM_YI_IO_ControllerHold1P2 = $000940
+!RAM_YI_IO_ControllerHold2P2 = $000941
+!RAM_YI_IO_ControllerPress1P2 = $000942
+!RAM_YI_IO_ControllerPress2P2 = $000943
+
 !RAM_YI_Global_HDMAEnable = $00094A
 !RAM_YI_Global_OAMSizeAndDataAreaDesignation = $00094B
 !RAM_YI_Global_BGWindowLogicSettings = $00094C
@@ -156,6 +175,14 @@
 !RAM_YI_Global_SubScreenWindowMask = $00096A
 !RAM_YI_Global_ColorMathInitialSettings = $00096B
 !RAM_YI_Global_ColorMathSelectAndEnable = $00096C
+
+; Credits text.
+!RAM_YI_Credits_OAMTable = $00096D
+	!RAM_YI_Credits_OAMTileSizeBuffer = !RAM_YI_Credits_OAMTable+$200
+!RAM_YI_Credits_StringIndex = $000B8D
+!RAM_YI_Credits_FadeMode = $000B8F
+!RAM_YI_Credits_ScreenTimer = $000B91
+!RAM_YI_Credits_FontColorTable = $000B93
 
 !RAM_YI_Level_CurrentPauseScreenState = $000B0F
 !RAM_YI_Level_ActivePauseScreenFlag = $000B10
@@ -214,6 +241,26 @@
 
 !RAM_YI_Map_RunningYoshiIndex = $00112E
 
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	!RAM_YI_Map_PERFECT_AnimTimers = $001150
+	!RAM_YI_Map_PERFECT_RotationAngles = $001160
+	!RAM_YI_Map_PERFECT_Indexes = $001170
+	!RAM_YI_Map_PERFECT_XPosOAM = $001190
+else
+	!RAM_YI_Map_PERFECT_AnimTimers = $001152
+	!RAM_YI_Map_PERFECT_RotationAngles = $001160
+	!RAM_YI_Map_PERFECT_Indexes = $00116E
+	!RAM_YI_Map_PERFECT_XPosOAM = $00117C
+endif
+
+!RAM_YI_Global_TilemapUploadIndexLo = $7E4000
+	!RAM_YI_Global_TilemapUploadIndexHi = !RAM_YI_Global_TilemapUploadIndexLo+$01
+!RAM_YI_Global_TilemapUploadTable = $7E4002
+
+!RAM_YI_Global_DMAQueueIndexLo = $7E4800
+	!RAM_YI_Global_DMAQueueIndexHi = !RAM_YI_Global_DMAQueueIndexLo+$01
+!RAM_YI_Global_DMAQueue = $7E4802
+
 !RAM_YI_Global_MainRAMCodeBlock = (YI_MainRAMCodeBlock&$00FFFF)|$7E0000				; $7EC000
 
 !RAM_YI_Global_VBlankRt = (YI_VBlankRt-YI_MainRAMCodeBlock)+!RAM_YI_Global_MainRAMCodeBlock
@@ -238,3 +285,7 @@
 
 !RAM_YI_Level_LevelDataBuffer = $7F8000
 
+struct YI_Global_TilemapUploadTable !RAM_YI_Global_TilemapUploadTable
+	.LowByte: skip $01
+	.HighByte: skip $01
+endstruct align $02

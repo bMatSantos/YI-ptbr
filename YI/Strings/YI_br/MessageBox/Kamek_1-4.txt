@@ -1,0 +1,12 @@
+{n1}Então você está
+{n2}do lado desse
+{n3}bebê,Yoshizinho?
+{n4}Pois se prepare!
+
+{n:}Nós vamos te{P}
+{Scr2}
+{n:}pegar de calça
+{Scr2}
+{n:}curta!
+{Scr2}
+{End0F}

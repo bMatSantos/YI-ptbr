@@ -1,0 +1,23 @@
+{n1}Você já sabe que
+{n2}pode jogar um ovo
+{n3}na tulipa e receber
+{n4}algumas estrelas.
+
+{n:}Mas sabia que é{P}
+{Scr2}
+{n:}mais fácil se jogar
+{Scr2}
+{n:}um inimigo cuspindo
+{Scr2}
+{n:}para cima?
+{Scr2}
+
+{n:}É só você pegá-lo,{P}
+{Scr2}
+{n:}segurar [UP] no [DPAD] e
+{Scr2}
+{n:}apertar [Y].
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

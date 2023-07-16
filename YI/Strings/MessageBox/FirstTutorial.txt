@@ -1,0 +1,41 @@
+{n1}If baby Mario falls
+{n2}off Yoshi's back,
+{n3}the Countdown
+{n4}Timer will begin.
+
+{n:}When it reaches 0,{P}
+{Scr2}
+{n:}Kamek's toadies
+{Scr2}
+{n:}will kidnap baby
+{Scr2}
+{n:}Mario!
+{Scr2}
+
+{n:}The more Stars [*]{P}
+{Scr2}
+{n:}you collect, the
+{Scr2}
+{n:}safer you are.
+{Scr2}
+{n:}
+{Scr2}
+
+{n:}The Countdown{P}
+{Scr2}
+{n:}Timer will slowly
+{Scr2}
+{n:}count back up to
+{Scr2}
+{n:}10.
+{Scr2}
+
+{n:}Complete a stage{P}
+{Scr2}
+{n:}by passing baby
+{Scr2}
+{n:}Mario to the next
+{Scr2}
+{n:}Yoshi.
+{Scr2}
+{End0F}

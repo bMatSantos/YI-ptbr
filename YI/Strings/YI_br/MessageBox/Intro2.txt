@@ -1,0 +1,32 @@
+{n1}Espera! O bebê
+{n2}parece saber para
+{n3}onde quer ir...
+{n4}
+
+{n:}O laço entre os{P}
+{Scr2}
+{n:}irmãos deve falar
+{Scr2}
+{n:}para um onde está
+{Scr2}
+{n:}o outro.
+{Scr2}
+
+{n:}Os Yoshis decidem{P}
+{Scr2}
+{n:}levá-lo até esse
+{Scr2}
+{n:}lugar revezando-
+{Scr2}
+{n:}-se entre si.
+{Scr2}
+
+{n:}E assim começa{P}
+{Scr2}
+{n:}a grande aventura
+{Scr2}
+{n:}dos Yoshis e do
+{Scr2}
+{n:}Bebê Mario...
+{Scr2}
+{End0F}

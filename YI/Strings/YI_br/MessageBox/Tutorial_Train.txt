@@ -1,0 +1,14 @@
+{n1}O Yoshi Trem pode
+{n2}percorrer os
+{n3}trilhos desenhados
+{n4}nas paredes!
+
+{n:}Acelere para{P}
+{Scr2}
+{n:}desviar dos
+{Scr2}
+{n:}inimigos usando
+{Scr2}
+{n:}o botão [Y].
+{Scr2}
+{End0F}

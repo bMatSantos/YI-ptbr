@@ -1,0 +1,5 @@
+{n1}Morph into the
+{n2}Mole Tank here.
+{n3}Dig through the
+{n4}dirt wall!
+{End0F}

@@ -1,0 +1,14 @@
+{n1}Uni duni tê,
+{n2}Salamê minguê,
+{n3}É bom não esquecer
+{n4}O que eu vou dizer.
+
+{n:}Mire na hora certa{P}
+{Scr2}
+{n:}Antes de jogar.
+{Scr2}
+{n:}Atenção no ângulo
+{Scr2}
+{n:}E você conseguirá!
+{Scr2}
+{End0F}

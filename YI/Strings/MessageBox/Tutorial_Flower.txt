@@ -1,0 +1,14 @@
+{n1}  Special Flower:
+{n2}Gather 5 for a
+{n3}1UP! They add to
+{n4}your point total.
+
+{n:}They also add{P}
+{Scr2}
+{n:}flowers to the
+{Scr2}
+{n:}Goal Ring
+{Scr2}
+{n:}roulette!
+{Scr2}
+{End0F}

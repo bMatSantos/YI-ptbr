@@ -1,0 +1,12 @@
+{n1}Ao jogar um ovo,
+{n2}você pode travar
+{n3}a mira apertando
+{n4}[L] ou [R].
+
+{n:}Isso vai aumentar{P}
+{Scr2}
+{n:}bastante a sua
+{Scr2}
+{n:}precisão.
+{Scr2}
+{End0F}

@@ -1,0 +1,5 @@
+{n1}Ó,céus...
+{n2}O que farei...?
+{n3}O Jovem Mestre
+{n4}Bauser acordou!!
+{End0F}

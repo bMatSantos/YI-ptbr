@@ -1,0 +1,14 @@
+{n1}
+{n2}     GATHER COINS
+{n3}
+{n4}
+
+{n:}Grab more coins{P}
+{Scr2}
+{n:}than your enemy
+{Scr2}
+{n:}before the time
+{Scr2}
+{n:}reaches 0.
+{Scr2}
+{End0F}

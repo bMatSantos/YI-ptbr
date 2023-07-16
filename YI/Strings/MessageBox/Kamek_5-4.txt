@@ -1,0 +1,10 @@
+{n1}Aaaaah, Yoshi! To
+{n2}get this far you
+{n3}must be powerful,
+{n4}but remember:
+
+{n:}This slug has no{P}
+{Scr2}
+{n:}weak points!!
+{Scr2}
+{End0F}

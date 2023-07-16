@@ -1,0 +1,19 @@
+{n1}First, touch a
+{n2}Super Star and
+{n3}become Powerful
+{n4}Mario!
+
+{n:}Hold [LEFT] or [RGHT] on [DPAD],{P}
+{Scr2}
+{n:}you can run up a
+{Scr2}
+{n:}wall and across
+{Scr2}
+{n:}the ceiling!!
+{Scr2}
+
+{n:}Hold [B] to float!{P}
+{Scr2}
+{n:}Hold [Y] to dash!
+{Scr2}
+{End0F}

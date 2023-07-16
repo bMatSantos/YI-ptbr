@@ -1,0 +1,5 @@
+{n1}So you're still on
+{n2}the baby's side,
+{n3}Yoshi-baby? Then
+{n4}get a load of this!
+{End0F}

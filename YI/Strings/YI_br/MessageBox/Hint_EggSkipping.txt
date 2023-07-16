@@ -1,0 +1,14 @@
+{n1}Você pode pegar
+{n2}essas moedas
+{n3}nadando,mas que
+{n4}tal usar um ovo?
+
+{n:}Ele vai saltitar{P}
+{Scr2}
+{n:}pela superfície da
+{Scr2}
+{n:}água e coletar
+{Scr2}
+{n:}as moedas.
+{Scr2}
+{End0F}

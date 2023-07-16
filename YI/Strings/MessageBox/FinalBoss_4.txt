@@ -1,0 +1,25 @@
+{n1}Huh??
+{n2}Hmm?!!?
+{n3}Mmmmm!!!!?!
+{n4}
+
+{n:}What kind of gween{P}
+{Scr2}
+{n:}donkey is dat?
+{Scr2}
+{n:}Looks wyke fun!
+{Scr2}
+{n:}Me wanna ri-ide!!!
+{Scr2}
+
+{n:}{P}
+{Scr2}
+{n:}
+{n4}{S2}MINE!!
+{Scr2}
+{n:}
+{Scr2}
+{n:}
+{n4}MINE!!!
+{Scr2}
+{End0F}

@@ -1,0 +1,14 @@
+{n1}Há Blocos
+{n2}Rosquinha muito
+{n3}perigosos no
+{n4}decorrer da fase.
+
+{n:}Eles começarão a{P}
+{Scr2}
+{n:}cair pouco depois
+{Scr2}
+{n:}de pisar neles.
+{Scr2}
+{n:}Ande com cuidado!
+{Scr2}
+{End0F}

@@ -1,0 +1,21 @@
+{n1} - Botando ovos -
+{D1n2}
+
+{n:}Pegue um inimigo{P}
+{Scr2}
+{n:}com o [Y] e então
+{Scr2}
+{n:}aperte [DOWN] no [DPAD]
+{Scr2}
+{n:}para botar um ovo.
+{Scr2}
+
+{n:}Além disso,tente{P}
+{Scr2}
+{n:}jogar um ovo
+{Scr2}
+{n:}com o botão [A]!
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

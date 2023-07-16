@@ -1,0 +1,5 @@
+{n1}Yoshi?! Não
+{n2}aguento mais...
+{n3}A Mega-Pópis vai
+{n4}te esmagar agora!
+{End0F}

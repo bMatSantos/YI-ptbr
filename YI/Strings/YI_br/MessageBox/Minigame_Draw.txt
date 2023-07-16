@@ -1,0 +1,14 @@
+{n1}         LOTERIA   
+{n2}
+{n3}   Chance de item!
+{n4}
+
+{n:}Vire 1 carta e{P}
+{Scr2}
+{n:}receba o item
+{Scr2}
+{n:}mostrado.
+{Scr2}
+{n:}Boa sorte!
+{Scr2}
+{End0F}

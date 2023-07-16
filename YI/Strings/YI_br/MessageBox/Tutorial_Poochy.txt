@@ -1,0 +1,12 @@
+{n1}Este cachorro é o
+{n2}Bolinha.Ele é bem
+{n3}fofo,não é?
+{n4}Pegue uma carona!
+
+{n:}Ele sempre corre{P}
+{Scr2}
+{n:}na direção que o
+{Scr2}
+{n:}Yoshi olhar.
+{Scr2}
+{End0F}

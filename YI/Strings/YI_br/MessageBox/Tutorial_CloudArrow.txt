@@ -1,0 +1,5 @@
+{n1}Acerte uma [CLDR] com
+{n2}um ovo para ele
+{n3}voar na direção
+{n4}que a [CLDR] apontar.
+{End0F}

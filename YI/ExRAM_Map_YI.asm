@@ -130,6 +130,49 @@
 
 !EXRAM_YI_Global_SaveFile1 = $007C00|!SRAMBankBaseAddress
 
+!EXRAM_YI_OAM16BitBufferOffset = $000200-$80	; Note: Sprites $00-$0F are never used by this buffer.
+!EXRAM_YI_OAMBufferOffset = $000A00
+!EXRAM_YI_OAMTileSizeBufferOffset = $000C20
+
+
+struct YI_OAM16BitBuffer !SRAMBankBaseAddress|!EXRAM_YI_OAM16BitBufferOffset
+	.XDisp: skip $02
+	.YDisp: skip $02
+	.Tile: skip $01
+	.Prop: skip $01
+	.Slot: skip $02
+endstruct align $08
+	struct YI_BankMirror_OAM16BitBuffer !EXRAMBankMirror|!EXRAM_YI_OAM16BitBufferOffset
+		.XDisp: skip $02
+		.YDisp: skip $02
+		.Tile: skip $01
+		.Prop: skip $01
+		.Slot: skip $02
+	endstruct align $08
+
+struct YI_OAMBuffer !SRAMBankBaseAddress|!EXRAM_YI_OAMBufferOffset
+	.XDisp: skip $01
+	.YDisp: skip $01
+	.Tile: skip $01
+	.Prop: skip $01
+endstruct align $04
+	struct YI_BankMirror_OAMBuffer !EXRAMBankMirror|!EXRAM_YI_OAMBufferOffset
+		.XDisp: skip $01
+		.YDisp: skip $01
+		.Tile: skip $01
+		.Prop: skip $01
+	endstruct align $04
+
+!RAM_YI_OAMBuffer_Slots = (!SRAMBankBaseAddress|!EXRAM_YI_OAMBufferOffset)+$0200
+!EXRAM_YI_BankMirror_OAMBuffer_Slots = (!EXRAMBankMirror|!EXRAM_YI_OAMBufferOffset)+$0200
+
+struct YI_OAMTileSizeBuffer !SRAMBankBaseAddress|!EXRAM_YI_OAMTileSizeBufferOffset
+	.Slot: skip $01
+endstruct
+	struct YI_BankMirror_OAMTileSizeBuffer !EXRAMBankMirror|!EXRAM_YI_OAMTileSizeBufferOffset
+		.Slot: skip $01
+	endstruct
+
 struct YI_Global_PaletteMirror !EXRAM_YI_Global_PaletteMirror
 	.LowByte: skip $01
 	.HighByte: skip $01

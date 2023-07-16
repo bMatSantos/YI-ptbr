@@ -1,0 +1,14 @@
+{n1}Em cada fase,20
+{n2}moedas vermelhas
+{n3}estão escondidas
+{n4}entre as amarelas.
+
+{n:}Cada uma adiciona{P}
+{Scr2}
+{n:}1 ponto à sua
+{Scr2}
+{n:}pontuação.
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

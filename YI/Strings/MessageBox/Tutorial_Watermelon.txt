@@ -1,0 +1,5 @@
+{n1}Grab a green
+{n2}watermelon and
+{n3}press [Y] to fire
+{n4}seeds.
+{End0F}

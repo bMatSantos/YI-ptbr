@@ -1,0 +1,14 @@
+{n1}You can, ah, will,
+{n2}aaah, never enter
+{n3}the Koopa
+{n4}Kingdom!
+
+{n:}I banish you to{P}
+{Scr2}
+{n:}forever twinkle in
+{Scr2}
+{n:}the heavens,
+{Scr2}
+{n:}BE GONE!!
+{Scr2}
+{End0F}

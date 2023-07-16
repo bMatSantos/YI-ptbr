@@ -1,0 +1,14 @@
+{n1}When you jump off
+{n2}one of these
+{n3}platforms, the
+{n4}number shown is
+
+{n:}reduced by one.{P}
+{Scr2}
+{n:}If the number
+{Scr2}
+{n:}reaches 0, the
+{Scr2}
+{n:}platform vanishes[.]
+{Scr2}
+{End0F}

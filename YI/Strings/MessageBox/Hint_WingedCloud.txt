@@ -1,0 +1,5 @@
+{n1}Hit this [?] with an
+{n2}egg and morph into
+{n3}a helicopter.
+{n4}Find 5 red coins.
+{End0F}

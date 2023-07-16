@@ -1,0 +1,12 @@
+{n1}Hi there cute lil'
+{n2}Yoshi! Does baby
+{n3}Mario wanna go to
+{n4}Bowser's Castle?
+
+{n:}I'll take him there{P}
+{Scr2}
+{n:}in a hurry!
+{Scr2}
+{n:}Tee, hee, hee ...
+{Scr2}
+{End0F}

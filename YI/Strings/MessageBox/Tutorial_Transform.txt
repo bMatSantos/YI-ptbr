@@ -1,0 +1,14 @@
+{n1}You can morph
+{n2}into a helicopter
+{n3}by touching the
+{n4}helicopter bubble.
+
+{n:}Touch the Yoshi{P}
+{Scr2}
+{n:}Block in time and
+{Scr2}
+{n:}baby Mario will be
+{Scr2}
+{n:}warped to Yoshi.
+{Scr2}
+{End0F}

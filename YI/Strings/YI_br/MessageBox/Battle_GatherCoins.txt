@@ -1,0 +1,14 @@
+{n1}
+{n2}     PEGA-MOEDAS
+{n3}
+{n4}
+
+{n:}Pegue mais moedas{P}
+{Scr2}
+{n:}que o seu inimigo
+{Scr2}
+{n:}antes de o tempo
+{Scr2}
+{n:}chegar a 0.
+{Scr2}
+{End0F}

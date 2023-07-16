@@ -1,0 +1,23 @@
+{n1}  RASPA-VI-DINHA
+{n2}
+{n3}   Chance de 1VD!
+{n4}
+
+{n:}Raspe 3 espaços!{P}
+{Scr2}
+{n:}Descubra os Marios
+{Scr2}
+{n:}para ganhar vidas!
+{Scr2}
+{n:}Vai raspando!
+{Scr2}
+
+{n:}3 Subalkupas - 0VD{P}
+{Scr2}
+{n:}1 Mario           - 1VD
+{Scr2}
+{n:}2 Marios         - 2VD
+{Scr2}
+{n:}3 Marios         - 5VD
+{Scr2}
+{End0F}

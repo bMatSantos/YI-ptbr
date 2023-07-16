@@ -1,0 +1,14 @@
+{n1}Pega o Bebê Mario!
+{n2}Se o Contador
+{n3}chegar a 0,ele vai
+{n4}ser raptado!!
+
+{n:}Pule,use sua{P}
+{Scr2}
+{n:}língua ou até os
+{Scr2}
+{n:}seus ovos para
+{Scr2}
+{n:}pegá-lo!!!
+{Scr2}
+{End0F}

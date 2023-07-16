@@ -1,0 +1,25 @@
+{n1}Hã??
+{n2}Hm?!!?
+{n3}Mmmmm?!!!!!
+{n4}
+
+{n:}Isso aí é um{P}
+{Scr2}
+{n:}cavalo ou o quê?
+{Scr2}
+{n:}Palece diveltido!
+{Scr2}
+{n:}Eu quelo blincá!!!
+{Scr2}
+
+{n:}{P}
+{Scr2}
+{n:}
+{n4}{S2}É MEU!!
+{Scr2}
+{n:}
+{Scr2}
+{n:}
+{n4}É MEU!!!
+{Scr2}
+{End0F}

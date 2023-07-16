@@ -1,0 +1,5 @@
+{n1}This is the
+{n2}Middle-Ring for
+{n3}this level. You may
+{n4}continue from here
+{End0F}

@@ -1,0 +1,5 @@
+{n1}Torne-se um
+{n2}Toupeiramóvel
+{n3}aqui.Cave essas
+{n4}paredes de terra!
+{End0F}

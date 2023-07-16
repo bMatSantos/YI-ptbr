@@ -8,6 +8,9 @@ macro YI_GameSpecificAssemblySettings()
 	!ROM_YI_J2 = $0020							;|
 	!ROM_YI_J3 = $0040							;/
 
+	!ROM_HACK_YI_br_v1 = $0080					;[BR] Define for the translation
+	!ROM_HACK_YI_br = $0100
+
 !Define_YI_Global_EnableDebugFeatures = !FALSE
 
 	%SetROMToAssembleForHack(YI_U2, !ROMID)

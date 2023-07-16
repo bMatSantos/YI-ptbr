@@ -1,0 +1,23 @@
+{n1}Vire o Mario
+{n2}Superpoderoso
+{n3}tocando em uma
+{n4}Superestrela!
+
+{n:}Segure [LEFT] ou [RGHT] no [DPAD],{P}
+{Scr2}
+{n:}e você correrá
+{Scr2}
+{n:}pelas paredes até
+{Scr2}
+{n:}subir no teto!
+{Scr2}
+
+{n:}Segure [B] para{P}
+{Scr2}
+{n:}flutuar,e [Y]!
+{Scr2}
+{n:}para correr!
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

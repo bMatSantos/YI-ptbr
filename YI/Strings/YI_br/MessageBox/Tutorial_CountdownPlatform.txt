@@ -1,0 +1,14 @@
+{n1}Sempre que se pula
+{n2}de uma dessas
+{n3}plataformas,o
+{n4}numero dela diminui.
+
+{n:}Se o número chegar{P}
+{Scr2}
+{n:}a 0,a plataforma
+{Scr2}
+{n:}desaparecerá.
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

@@ -1,0 +1,14 @@
+{n1}Você pode virar
+{n2}um helicóptero
+{n3}tocando na Bolha
+{n4}de Transformação.
+
+{n:}Bata no Bloco{P}
+{Scr2}
+{n:}Yoshi a tempo e
+{Scr2}
+{n:}o Bebê Mario será
+{Scr2}
+{n:}levado até o Yoshi.
+{Scr2}
+{End0F}

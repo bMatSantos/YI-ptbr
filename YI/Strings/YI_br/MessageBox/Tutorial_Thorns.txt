@@ -1,0 +1,14 @@
+{n1}Não encoste nos
+{n2}espinhos.Eles vão
+{n3}te derrubar na
+{n4}hora!
+
+{n:}Você pode destruir{P}
+{Scr2}
+{n:}esses espinhos
+{Scr2}
+{n:}acertando-os
+{Scr2}
+{n:}com ovos.
+{Scr2}
+{End0F}

@@ -1,0 +1,5 @@
+{n1}      [Yx]{Life}
+{n2}Recomeçar pelo
+{n3}Anel Intermediário?
+{n4}  [>]Sim       Não
+{End50}

@@ -1,0 +1,23 @@
+{n1}     SCRATCH AND
+{n2}          MATCH
+{n3}
+{n4}    1 UP  Chance!
+
+{n:}Scratch 3 boxes!{P}
+{Scr2}
+{n:}Uncover Marios to
+{Scr2}
+{n:}gain 1 UPs!!
+{Scr2}
+{n:}Scratch On!
+{Scr2}
+
+{n:}3 Toadies - 0 UP{P}
+{Scr2}
+{n:}1 Mario     - 1 UP
+{Scr2}
+{n:}2 Marios   - 2 UP
+{Scr2}
+{n:}3 Marios   - 5 UP
+{Scr2}
+{End0F}

@@ -1,0 +1,5 @@
+{n1}Você dirige bem?
+{n2}É fácil! Use o [B]
+{n3}para desviar dos
+{n4}inimigos.
+{End0F}

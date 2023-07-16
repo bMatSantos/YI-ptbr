@@ -1,0 +1,5 @@
+{n1}Desiste logo,
+{n2}seu intrometido
+{n3}desumbig-! Ah!
+{n4}Nada não,esquece!
+{End0F}

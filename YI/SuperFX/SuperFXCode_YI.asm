@@ -7717,6 +7717,10 @@ CODE_08A97B:
 	STOP : NOP
 
 ;---------------------------------------------------------------------------
+; Note: Routine responsible for LZ1 decompression.
+; R9 = Data pointer (low)
+; R4 = Data pointer (bank)
+; R10 = 
 
 CODE_08A980:
 	FROM R4
@@ -8196,7 +8200,6 @@ DATA_08AF58:
 	dw $0C0C,$0A0B,$0909,$0708,$0506,$0405,$0203,$0102
 
 ;---------------------------------------------------------------------------
-
 ; Note: Routine that initializes the OAM buffer.
 
 CODE_08B1D8:
@@ -8213,25 +8216,28 @@ CODE_08B1D8:
 	STOP : NOP
 
 ;---------------------------------------------------------------------------
+; Note: Routine that compresses the data on the 16-bit OAM buffer then transfers them to the 2nd OAM buffer.
 
 CODE_08B1EF:
-	IBT R12, #$10
-	IWT R0, #$0A01
-	IBT R1, #$04
-	IBT R2, #$F0
-	CACHE
-	MOVE R13, R15
-	FROM R2
-	STB (R0)
-	LOOP : ADD R1
+	IBT R12, #$10	;\ Discard the first $10 sprites in OAM
+	IWT R0, #$0A01	;|
+	IBT R1, #$04	;|
+	IBT R2, #$F0	;|
+	CACHE			;|
+	MOVE R13, R15	;|
+	FROM R2			;|
+	STB (R0)		;|
+	LOOP : ADD R1	;/
+
 	IWT R2, #$0A40
 	IWT R4, #$0C30
 	IWT R1, #$700200
-	IWT R3, #$0BFC
+	IWT R3, #$0BFC				; Note: last OAM slot.
 	IWT R5, #$0C9F
 	IBT R7, #$F1
 	IWT R12, #$0100
 	MOVE R13, R15
+	
 	MOVE R6, R1
 	LDW (R6)
 	CMP R7
@@ -12423,6 +12429,9 @@ DATA_08D0F1:
 	dw $3AF4,$3AEA,$3ADF,$3AD5,$3ACB,$3AC0,$3AB6,$3AAC
 	dw $3AA2,$3A98,$3A8D,$3A83,$3A79,$3A6F,$3A65,$3A5A
 
+;---------------------------------------------------------------------------
+; This loops clears (R12*2) bytes at the address (R1) of SRAM.
+
 CODE_08D2F1:
 	SUB R0
 	CACHE
@@ -12431,6 +12440,8 @@ CODE_08D2F1:
 	INC R1
 	LOOP : INC R1
 	STOP : NOP
+
+;---------------------------------------------------------------------------
 
 CODE_08D2FB:
 	IWT R0, #$0200
@@ -17473,20 +17484,20 @@ CODE_08F13E:
 	ADD #8
 	WITH R5
 	ADD #8
-CODE_08F165:
+CODE_08F165:							; Note: Routine related to the PAUSE/GAME OVER 3D letters.
 	SMS ($3C), R4
 	SMS ($3E), R5
 	SMS ($3A), R6
 	SUB R0
 	CMODE
-	IBT R0, #DATA_08AE18>>16
-	ROMB
-	IBT R6, #$10
-	IWT R13, #DATA_08AE18
-	FROM R13
-	TO R14
-	ADD R2
-	GETB
+	IBT R0, #DATA_08AE18>>16		;\ Load byte from this table.
+	ROMB							;|
+	IBT R6, #$10					;|
+	IWT R13, #DATA_08AE18			;|
+	FROM R13						;|
+	TO R14							;|
+	ADD R2							;|
+	GETB							;/
 	SMS ($00), R0
 	MOVE R9, R0
 	FROM R13
@@ -17513,8 +17524,8 @@ CODE_08F165:
 	MULT R6
 	SMS ($0A), R0
 	IWT R14, #DATA_08F49A
-	IBT R4, #$20
-	IBT R12, #$05
+	IBT R4, #$20				;\ Redundant?
+	IBT R12, #$05				;/
 	CACHE
 	MOVE R13, R15
 	GETBS
@@ -17547,7 +17558,8 @@ CODE_08F1CC:
 	ADD R11
 	STB (R4)
 	LOOP : INC R4
-	IWT R0, #DATA_08F4AE
+
+	IWT R0, #YI_3DLetterDataPtrs
 	ADD R1
 	TO R14
 	ADD R1
@@ -17687,6 +17699,7 @@ CODE_08F1CC:
 	ADD R7
 	STB (R1)
 	LOOP : INC R1
+
 	IWT R1, #$2BBE
 	IWT R2, #$2C0E
 	IBT R3, #$00
@@ -17768,6 +17781,7 @@ CODE_08F29F:
 	DEC R0
 	STB (R2)
 	LOOP : INC R2
+
 	FROM R4
 	STB (R2)
 	INC R2
@@ -17841,6 +17855,7 @@ CODE_08F29F:
 	STB (R2)
 	MOVE R1, R4
 	LOOP : INC R2
+
 	IWT R1, #$2D3A
 	GETB
 	INC R14
@@ -18054,25 +18069,72 @@ CODE_08F495:
 	RPIX
 	STOP : NOP
 
+; Note: polygons data for the PAUSE/GAME OVER letters.
+
 DATA_08F49A:
-	db $2D,$20,$E0,$0C,$00,$2D,$2D,$08,$2D,$E0,$20,$08,$20,$CA,$F7,$08
+	db $2D,$20,$E0,$0C
+	db $00,$2D,$2D,$08
+	db $2D,$E0,$20,$08
+	db $20,$CA,$F7,$08
 	db $E0,$F7,$CA,$08
 
-DATA_08F4AE:
-	dw DATA_08F4E2,DATA_08F538,DATA_08F58C,DATA_08F5DC,DATA_08F624,DATA_08FCFD,DATA_08FD67,DATA_08F689
-	dw DATA_08F6EC,DATA_08F70A,DATA_08F756,DATA_08F7B3,DATA_08F818,DATA_08F88E,DATA_08F8F3,DATA_08F93B
-	dw DATA_08F9DD,DATA_08FA3E,DATA_08FA71,DATA_08FAE5,DATA_08FDDC,DATA_08FB1C,DATA_08FB8C,DATA_08FC8F
-	dw DATA_08FBED,DATA_08FC26
+YI_3DLetterDataPtrs:
+	dw YI_3DLetterData_P			; 00
+	dw YI_3DLetterData_A			; 01
+	dw YI_3DLetterData_U			; 02
+	dw YI_3DLetterData_S			; 03
+	dw YI_3DLetterData_E			; 04
+	dw YI_3DLetterData_D			; 05
+	dw YI_3DLetterData_DoubleExclm	; 06
+	dw YI_3DLetterData_0			; 07
+	dw YI_3DLetterData_1			; 08
+	dw YI_3DLetterData_2			; 09
+	dw YI_3DLetterData_3			; 0A
+	dw YI_3DLetterData_4			; 0B
+	dw YI_3DLetterData_5			; 0C
+	dw YI_3DLetterData_6			; 0D
+	dw YI_3DLetterData_7			; 0E
+	dw YI_3DLetterData_8			; 0F
+	dw YI_3DLetterData_9			; 10
+	dw YI_3DLetterData_L			; 11
+	dw YI_3DLetterData_C			; 12
+	dw YI_3DLetterData_T			; 13
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	dw YI_3DLetterData_J ;14
+else
+	dw YI_3DLetterData_Space		; 14
+endif
+	dw YI_3DLetterData_G			; 15
+	dw YI_3DLetterData_M			; 16
+	dw YI_3DLetterData_O			; 17
+	dw YI_3DLetterData_V			; 18
+	dw YI_3DLetterData_R			; 19
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	dw YI_3DLetterData_F ;1A
+endif
 
-DATA_08F4E2:
-	db $0C,$10,$C0,$E7,$CC,$D0,$D0,$30,$D0,$ED,$E0,$10,$E0,$30,$F0,$F4
-	db $F8,$20,$00,$FE,$10,$E0,$40,$10,$40,$03,$04,$02,$16,$14,$04,$22
-	db $21,$22,$21,$05,$00,$06,$0A,$08,$02,$23,$00,$21,$00,$21,$06,$06
-	db $0C,$10,$12,$0E,$0A,$22,$24,$21,$00,$24,$00,$00,$02,$09,$02,$01
-	db $00,$00,$02,$01,$00,$00,$01,$02,$02,$01,$01,$02,$02,$01,$00,$00
-	db $01,$02,$00,$00,$01,$02
+YI_3DLetterData:
+.P:
+; $08F4E2
+	; Vertex number
+	db $0C
+	;    X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y
+	db $10,$C0,$E7,$CC,$D0,$D0,$30,$D0,$ED,$E0,$10,$E0,$30,$F0,$F4,$F8
+	db $20,$00,$FE,$10,$E0,$40,$10,$40
+	; Faces number
+	db $03
+	;No of V.,	V.indexes,				Edges orientation
+	db $04,	$02,$16,$14,$04,			$22,$21,$22,$21
+	db $05,	$00,$06,$0A,$08,$02,		$23,$00,$21,$00,$21
+	db $06,	$06,$0C,$10,$12,$0E,$0A,	$22,$24,$21,$00,$24,$00
 
-DATA_08F538:
+	db $00,$02,$09
+	db $02,$01,$00,$00, $02,$01,$00,$00
+	db $01,$02,$02,$01, $01,$02,$02,$01
+	db $00,$00,$01,$02, $00,$00,$01,$02
+
+.A:
+; $08F538
 	db $0C,$F0,$C0,$00,$C4,$10,$C8,$00,$F0,$FA,$10,$09,$10,$F3,$30,$12
 	db $30,$D0,$40,$F4,$40,$0F,$40,$30,$40,$03,$05,$00,$02,$06,$12,$10
 	db $21,$00,$22,$21,$22,$04,$08,$0A,$0E,$0C,$21,$00,$21,$00,$05,$02
@@ -18080,30 +18142,56 @@ DATA_08F538:
 	db $01,$02,$00,$00,$02,$01,$01,$00,$00,$01,$01,$02,$00,$00,$02,$01
 	db $02,$00,$02,$01
 
-DATA_08F58C:
-	db $0A,$D0,$D0,$F8,$D0,$10,$E0,$30,$E0,$D7,$20,$F0,$20,$00,$28,$20
-	db $30,$F0,$40,$00,$40,$03,$04,$00,$02,$0A,$08,$21,$22,$00,$22,$05
-	db $08,$0A,$0C,$12,$10,$00,$23,$00,$21,$23,$05,$04,$06,$0E,$12,$0C
-	db $21,$22,$24,$00,$22,$00,$0A,$04,$02,$02,$01,$00,$02,$02,$01,$00
-	db $01,$00,$00,$01,$01,$00,$00,$01,$00,$01,$02,$02,$00,$01,$02,$02
+.U:
+; $08F58C
+	; Vertex number
+	db $0A
+	;    X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y
+	db $D0,$D0,$F8,$D0,$10,$E0,$30,$E0,$D7,$20,$F0,$20,$00,$28,$20,$30
+	db $F0,$40,$00,$40
+	; Faces number
+	db $03
+	;No of V.,	V.indexes,			Edges orientation
+	db $04,	$00,$02,$0A,$08,		$21,$22,$00,$22
+	db $05,	$08,$0A,$0C,$12,$10,	$00,$23,$00,$21,$23
+	db $05,	$04,$06,$0E,$12,$0C,	$21,$22,$24,$00,$22
 
-DATA_08F5DC:
+	db $00,$0A,$04
+	db $02,$02,$01,$00, $02,$02,$01,$00
+	db $01,$00,$00,$01, $01,$00,$00,$01
+	db $00,$01,$02,$02, $00,$01,$02,$02
+
+.S:
+; $08F5DC
 	db $08,$00,$C0,$20,$E0,$E0,$F0,$10,$F0,$00,$10,$20,$10,$E0,$20,$00
 	db $40,$03,$04,$00,$02,$06,$04,$23,$24,$00,$24,$04,$04,$06,$0A,$08
 	db $00,$23,$00,$23,$04,$08,$0A,$0E,$0C,$00,$24,$23,$24,$00,$0A,$04
 	db $02,$02,$01,$00,$02,$02,$01,$00,$01,$00,$02,$01,$01,$00,$02,$01
 	db $00,$01,$00,$02,$00,$01,$00,$02
 
-DATA_08F624:
-	db $0E,$E0,$D0,$00,$C8,$20,$C0,$FC,$E8,$20,$E0,$FC,$F8,$20,$F0,$00
-	db $10,$18,$10,$FC,$28,$20,$20,$E0,$40,$00,$40,$20,$40,$04,$04,$00
-	db $02,$18,$16,$21,$22,$21,$22,$04,$02,$04,$08,$06,$21,$22,$21,$00
-	db $04,$0A,$0C,$10,$0E,$21,$22,$21,$00,$04,$12,$14,$1A,$18,$21,$22
-	db $21,$00,$00,$03,$04,$03,$01,$00,$00,$03,$01,$00,$00,$02,$02,$03
-	db $01,$02,$02,$03,$01,$01,$03,$02,$02,$01,$03,$02,$02,$00,$00,$01
-	db $03,$00,$00,$01,$03
+.E:
+; $08F624
+	; Vertex number
+	db $0E
+	;    X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y
+	db $E0,$D0,$00,$C8,$20,$C0,$FC,$E8,$20,$E0,$FC,$F8,$20,$F0,$00,$10
+	db $18,$10,$FC,$28,$20,$20,$E0,$40,$00,$40,$20,$40
+	; Faces number
+	db $04
+	;No of V.,	V.indexes,		Edges orientation
+	db $04,	$00,$02,$18,$16,	$21,$22,$21,$22
+	db $04,	$02,$04,$08,$06,	$21,$22,$21,$00
+	db $04,	$0A,$0C,$10,$0E,	$21,$22,$21,$00
+	db $04,	$12,$14,$1A,$18,	$21,$22,$21,$00
 
-DATA_08F689:
+	db $00,$03,$04
+	db $03,$01,$00,$00, $03,$01,$00,$00
+	db $02,$02,$03,$01, $02,$02,$03,$01
+	db $01,$03,$02,$02, $01,$03,$02,$02
+	db $00,$00,$01,$03, $00,$00,$01,$03
+
+.0:
+; $08F689
 	db $0B,$10,$C0,$30,$E0,$30,$10,$00,$40,$E0,$30,$D0,$00,$F0,$D0,$FC
 	db $E0,$20,$F0,$00,$20,$F0,$00,$04,$04,$00,$02,$10,$0E,$23,$00,$23
 	db $00,$05,$10,$02,$04,$06,$12,$00,$22,$24,$00,$24,$05,$12,$06,$08
@@ -18112,18 +18200,30 @@ DATA_08F689:
 	db $03,$03,$00,$02,$01,$01,$02,$02,$01,$01,$02,$03,$02,$00,$01,$03
 	db $02,$00,$01
 
-DATA_08F6EC:
-	db $04,$00,$C0,$20,$D0,$10,$40,$E0,$30,$01,$04,$00,$02,$04,$06,$23
-	db $24,$23,$24,$00,$02,$03,$00,$00,$00,$00,$00,$00,$00,$00
+.1:
+; $08F6EC
+	; Vertex number
+	db $04
+	;    X,Y     X,Y     X,Y     X,Y
+	db $00,$C0,$20,$D0,$10,$40,$E0,$30
+	; Faces number
+	db $01
+	;No of V.,	V.indexes,		Edges orientation
+	db $04,	$00,$02,$04,$06,	$23,$24,$23,$24
 
-DATA_08F70A:
+	db $00,$02,$03
+	db $00,$00,$00,$00, $00,$00,$00,$00
+
+.2:
+; $08F70A
 	db $0A,$F0,$C0,$20,$E0,$30,$00,$F6,$20,$20,$20,$30,$40,$D0,$40,$D0
 	db $30,$14,$F0,$D0,$E0,$03,$04,$00,$02,$10,$12,$23,$00,$23,$24,$04
 	db $0E,$02,$04,$0C,$24,$23,$24,$22,$04,$06,$08,$0A,$0C,$21,$23,$21
 	db $00,$00,$08,$10,$00,$00,$02,$01,$01,$00,$02,$00,$01,$01,$01,$00
 	db $02,$01,$01,$01,$02,$02,$00,$02,$00,$02,$00,$02
 
-DATA_08F756:
+.3:
+; $08F756
 	db $0A,$F0,$C0,$40,$E0,$20,$00,$30,$10,$00,$40,$D0,$30,$10,$10,$00
 	db $00,$10,$F0,$E0,$E0,$04,$04,$00,$02,$10,$12,$23,$00,$23,$24,$04
 	db $02,$04,$0E,$10,$24,$00,$24,$00,$04,$04,$06,$0C,$0E,$23,$00,$23
@@ -18131,7 +18231,8 @@ DATA_08F756:
 	db $00,$03,$00,$00,$00,$02,$01,$01,$01,$02,$01,$01,$01,$01,$02,$03
 	db $02,$01,$02,$02,$02,$00,$03,$02,$03,$00,$03,$03,$03
 
-DATA_08F7B3:
+.4:
+; $08F7B3
 	db $0E,$E0,$C0,$10,$C0,$F0,$10,$05,$16,$15,$D0,$30,$D0,$26,$16,$30
 	db $10,$30,$30,$22,$2A,$20,$40,$FB,$40,$00,$2C,$D0,$2D,$04,$04,$00
 	db $02,$04,$1A,$21,$24,$00,$24,$04,$08,$0A,$0C,$06,$21,$24,$00,$24
@@ -18140,7 +18241,8 @@ DATA_08F7B3:
 	db $01,$02,$00,$02,$01,$01,$02,$02,$02,$01,$02,$01,$02,$00,$03,$01
 	db $03,$00,$03,$00,$03
 
-DATA_08F818:
+.5:
+; $08F818
 	db $0E,$00,$C0,$24,$C0,$18,$CC,$40,$C0,$40,$E0,$08,$E0,$04,$F0,$20
 	db $00,$20,$30,$E0,$40,$D0,$20,$00,$20,$00,$10,$E0,$00,$05,$04,$00
 	db $02,$0C,$1A,$21,$24,$00,$24,$04,$04,$06,$08,$0A,$24,$22,$21,$00
@@ -18150,7 +18252,8 @@ DATA_08F818:
 	db $02,$02,$02,$02,$02,$02,$01,$02,$00,$03,$01,$03,$00,$03,$00,$04
 	db $01,$04,$00,$04,$01,$04
 
-DATA_08F88E:
+.6:
+; $08F88E
 	db $0C,$00,$C0,$30,$D0,$08,$F6,$30,$00,$30,$20,$06,$40,$E0,$30,$D0
 	db $00,$FC,$FF,$10,$10,$00,$20,$F8,$10,$04,$04,$00,$02,$16,$0E,$23
 	db $24,$00,$24,$04,$04,$06,$12,$10,$23,$00,$23,$00,$05,$06,$08,$0A
@@ -18159,14 +18262,16 @@ DATA_08F88E:
 	db $01,$01,$01,$03,$01,$01,$00,$01,$02,$03,$00,$01,$02,$00,$03,$02
 	db $03,$00,$03,$02,$03
 
-DATA_08F8F3:
+.7:
+; $08F8F3
 	db $08,$E0,$C0,$40,$E0,$20,$00,$00,$40,$D0,$40,$F0,$10,$10,$F0,$D0
 	db $E0,$03,$04,$00,$02,$0C,$0E,$23,$00,$23,$24,$04,$02,$04,$0A,$0C
 	db $24,$00,$24,$00,$04,$04,$06,$08,$0A,$24,$21,$24,$00,$00,$03,$04
 	db $02,$00,$00,$00,$02,$00,$00,$00,$01,$01,$02,$02,$01,$01,$02,$01
 	db $00,$02,$01,$01,$00,$02,$01,$02
 
-DATA_08F93B:
+.8:
+; $08F93B
 	db $12,$20,$C0,$40,$E0,$20,$00,$30,$30,$00,$40,$C0,$20,$D0,$00,$F0
 	db $F0,$E0,$E0,$E0,$D0,$0C,$CE,$20,$DE,$10,$F8,$FC,$E0,$02,$FC,$12
 	db $0E,$00,$20,$F0,$10,$07,$04,$00,$02,$16,$14,$23,$00,$23,$00,$04
@@ -18179,7 +18284,8 @@ DATA_08F93B:
 	db $02,$04,$00,$05,$00,$04,$00,$05,$01,$01,$06,$04,$01,$03,$06,$04
 	db $00,$03
 
-DATA_08F9DD:
+.9:
+; $08F9DD
 	db $0B,$20,$C0,$40,$00,$10,$40,$E0,$30,$02,$10,$F0,$10,$D0,$E0,$10
 	db $E0,$20,$F0,$12,$00,$00,$F0,$04,$04,$10,$0E,$00,$02,$23,$00,$23
 	db $00,$04,$10,$02,$04,$06,$00,$24,$23,$24,$05,$14,$12,$08,$0A,$0C
@@ -18188,38 +18294,76 @@ DATA_08F9DD:
 	db $00,$00,$03,$01,$03,$02,$03,$00,$02,$03,$02,$00,$01,$03,$02,$01
 	db $01
 
-DATA_08FA3E:
-	db $06,$E0,$CB,$10,$C0,$FB,$18,$28,$15,$30,$40,$D0,$40,$02,$04,$04
-	db $0A,$00,$02,$00,$22,$21,$22,$04,$04,$06,$08,$0A,$21,$22,$21,$00
-	db $00,$03,$04,$00,$01,$00,$01,$00,$01,$00,$01,$01,$00,$01,$00,$01
-	db $00,$01,$00
+.L:
+; $08FA3E
+	; Vertex number
+	db $06
+	;    X,Y     X,Y     X,Y     X,Y     X,Y     X,Y
+	db $E0,$CB,$10,$C0,$FB,$18,$28,$15,$30,$40,$D0,$40
+	; Faces number
+	db $02
+	;No of V.,	V.indexes,		Edges orientation
+	db $04,	$04,$0A,$00,$02,	$00,$22,$21,$22
+	db $04,	$04,$06,$08,$0A,	$21,$22,$21,$00
+	
+	db $00,$03,$04
+	db $00,$01,$00,$01, $00,$01,$00,$01
+	db $01,$00,$01,$00, $01,$00,$01,$00
 
-DATA_08FA71:
-	db $0D,$00,$C0,$27,$C9,$34,$DC,$15,$F0,$12,$DC,$F0,$FC,$F0,$10,$08
-	db $20,$29,$11,$2E,$35,$00,$40,$D0,$20,$D0,$F0,$05,$04,$02,$04,$06
-	db $00,$23,$24,$23,$21,$04,$00,$08,$0A,$18,$00,$24,$00,$24,$04,$0A
-	db $0C,$16,$18,$22,$00,$22,$00,$04,$0C,$0E,$14,$16,$23,$00,$23,$00
-	db $04,$0E,$10,$12,$14,$21,$22,$21,$00,$00,$10,$1C,$03,$00,$00,$00
+.C:
+; $08FA71
+	; Vertex number
+	db $0D
+	;    X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y
+	db $00,$C0,$27,$C9,$34,$DC,$15,$F0,$12,$DC,$F0,$FC,$F0,$10,$08,$20
+	db $29,$11,$2E,$35,$00,$40,$D0,$20,$D0,$F0
+	; Faces number
+	db $05
+	;No of V.,	V.indexes,		Edges orientation
+	db $04,	$02,$04,$06,$00,	$23,$24,$23,$21
+	db $04,	$00,$08,$0A,$18,	$00,$24,$00,$24
+	db $04,	$0A,$0C,$16,$18,	$22,$00,$22,$00
+	db $04,	$0C,$0E,$14,$16,	$23,$00,$23,$00
+	db $04,	$0E,$10,$12,$14,	$21,$22,$21,$00
+
+	db $00,$10,$1C
+	db $03,$00,$00,$00
 	db $03,$00,$04,$00,$04,$01,$04,$01,$04,$01,$03,$01,$02,$02,$03,$02
 	db $02,$02,$00,$02,$01,$03,$01,$04,$01,$03,$02,$04,$00,$04,$02,$03
 	db $00,$04,$01,$03
 
-DATA_08FAE5:
+.T:
+; $08FAE5
 	db $08,$D0,$C0,$30,$C0,$30,$E0,$D9,$EB,$F0,$E5,$11,$E0,$15,$40,$F0
 	db $40,$02,$04,$00,$02,$04,$06,$21,$22,$21,$22,$04,$08,$0A,$0C,$0E
 	db $00,$22,$21,$22,$00,$0B,$02,$00,$01,$00,$01,$00,$01,$00,$01,$01
 	db $00,$01,$00,$01,$00,$01,$00
 
-DATA_08FB1C:
-	db $0D,$00,$C0,$20,$E0,$E0,$00,$04,$24,$10,$10,$00,$00,$20,$00,$30
-	db $00,$40,$40,$20,$40,$20,$30,$E0,$40,$C0,$00,$05,$04,$00,$02,$04
-	db $18,$23,$24,$00,$24,$04,$04,$06,$16,$18,$23,$00,$23,$00,$03,$0C
-	db $14,$16,$00,$21,$24,$03,$0A,$0C,$08,$21,$00,$23,$04,$0C,$0E,$10
-	db $12,$21,$22,$21,$22,$00,$18,$19,$00,$00,$04,$02,$00,$00,$04,$02
-	db $04,$03,$02,$01,$04,$04,$02,$01,$02,$01,$03,$04,$03,$03,$03,$03
-	db $03,$02,$01,$03,$02,$02,$01,$00,$01,$04,$00,$00,$01,$01,$00,$04
+.G:
+; $08FB1C
+	; Vertex number
+	db $0D
+	;    X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y
+	db $00,$C0,$20,$E0,$E0,$00,$04,$24,$10,$10,$00,$00,$20,$00,$30,$00
+	db $40,$40,$20,$40,$20,$30,$E0,$40,$C0,$00
+	; Faces number
+	db $05
+	;No of V.,	V.indexes,		Edges orientation
+	db $04,	$00,$02,$04,$18,	$23,$24,$00,$24
+	db $04,	$04,$06,$16,$18,	$23,$00,$23,$00
+	db $03,	$0C,$14,$16,		$00,$21,$24
+	db $03,	$0A,$0C,$08,		$21,$00,$23
+	db $04,	$0C,$0E,$10,$12,	$21,$22,$21,$22
 
-DATA_08FB8C:
+	db $00,$18,$19
+	db $00,$00,$04,$02, $00,$00,$04,$02
+	db $04,$03,$02,$01, $04,$04,$02,$01
+	db $02,$01,$03,$04, $03,$03,$03,$03
+	db $03,$02,$01,$03, $02,$02,$01,$00
+	db $01,$04,$00,$00, $01,$01,$00,$04
+
+.M:
+; $08FB8C
 	db $0C,$E0,$D0,$F0,$E0,$00,$F0,$18,$E0,$30,$C0,$40,$40,$10,$40,$10
 	db $00,$00,$40,$F0,$10,$F0,$40,$C0,$40,$04,$04,$00,$02,$14,$16,$23
 	db $22,$21,$22,$04,$02,$04,$10,$12,$23,$00,$23,$00,$04,$04,$06,$0E
@@ -18228,13 +18372,31 @@ DATA_08FB8C:
 	db $01,$01,$01,$02,$02,$01,$01,$02,$02,$00,$00,$03,$03,$00,$00,$03
 	db $03
 
-DATA_08FBED:
-	db $08,$F0,$C0,$EE,$20,$20,$C0,$40,$E0,$00,$40,$F0,$40,$E0,$40,$C0
-	db $D0,$02,$04,$00,$0A,$0C,$0E,$22,$21,$23,$24,$05,$02,$04,$06,$08
-	db $0A,$24,$23,$24,$21,$22,$00,$02,$03,$01,$01,$00,$00,$01,$01,$00
-	db $00,$00,$00,$01,$01,$00,$00,$01,$01
+.V:
+; $08FBED
+	; Vertex number
+	db $08
+	;    X,Y
+	db $F0,$C0	;$00
+	db $EE,$20	;$02
+	db $20,$C0	;$04
+	db $40,$E0	;$06
+	db $00,$40	;$08
+	db $F0,$40	;$0A
+	db $E0,$40	;$0C
+	db $C0,$D0	;$0E
+	; Faces number
+	db $02
+	;No of V.,	V.indexes,			Edges orientation
+	db $04,	$00,$0A,$0C,$0E,		$22,$21,$23,$24
+	db $05,	$02,$04,$06,$08,$0A,	$24,$23,$24,$21,$22
 
-DATA_08FC26:
+	db $00,$02,$03
+	db $01,$01,$00,$00,	$01,$01,$00,$00
+	db $00,$00,$01,$01,	$00,$00,$01,$01
+
+.R:
+; $08FC26
 	db $0E,$00,$C0,$20,$D0,$30,$F0,$1A,$FC,$40,$20,$20,$40,$00,$10,$F0
 	db $10,$00,$40,$D0,$40,$C0,$D0,$E0,$E0,$10,$E0,$ED,$00,$04,$05,$00
 	db $02,$18,$16,$14,$23,$00,$21,$00,$21,$04,$16,$10,$12,$14,$23,$21
@@ -18243,16 +18405,31 @@ DATA_08FC26:
 	db $02,$03,$02,$01,$03,$02,$02,$01,$00,$02,$01,$02,$00,$00,$01,$02
 	db $03,$00,$00,$03,$01,$03,$00,$03,$01
 
-DATA_08FC8F:
-	db $0A,$00,$C0,$40,$E0,$30,$30,$10,$40,$E0,$40,$C0,$00,$F0,$F0,$10
-	db $EA,$20,$10,$F0,$20,$05,$04,$0C,$00,$02,$0E,$00,$23,$00,$21,$04
-	db $10,$0E,$02,$04,$23,$00,$22,$00,$05,$10,$04,$06,$08,$12,$00,$24
-	db $21,$00,$21,$04,$08,$0A,$0C,$12,$23,$00,$22,$00,$03,$00,$0C,$0A
-	db $00,$00,$24,$00,$0A,$10,$02,$00,$04,$04,$01,$01,$04,$04,$03,$04
-	db $03,$00,$02,$00,$03,$03,$01,$01,$00,$03,$03,$02,$02,$00,$00,$03
-	db $02,$01,$00,$04,$00,$01,$04,$02,$01,$02,$04,$03,$01,$02
+.O:
+; $08FC8F
+	; Vertex number
+	db $0A
+	;    X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y
+	db $00,$C0,$40,$E0,$30,$30,$10,$40,$E0,$40,$C0,$00,$F0,$F0,$10,$EA
+	db $20,$10,$F0,$20
+	; Faces number
+	db $05
+	;No of V.,	V.indexes,			Edges orientation
+	db $04,	$0C,$00,$02,$0E,		$00,$23,$00,$21
+	db $04,	$10,$0E,$02,$04,		$23,$00,$22,$00
+	db $05,	$10,$04,$06,$08,$12,	$00,$24,$21,$00,$21
+	db $04,	$08,$0A,$0C,$12,		$23,$00,$22,$00
+	db $03,	$00,$0C,$0A,			$00,$00,$24
 
-DATA_08FCFD:
+	db $00,$0A,$10
+	db $02,$00,$04,$04,	$01,$01,$04,$04
+	db $03,$04,$03,$00,	$02,$00,$03,$03
+	db $01,$01,$00,$03,	$03,$02,$02,$00
+	db $00,$03,$02,$01,	$00,$04,$00,$01
+	db $04,$02,$01,$02,	$04,$03,$01,$02
+
+.D:
+; $08FCFD
 	db $09,$00,$C0,$30,$E0,$30,$20,$E0,$40,$D0,$D0,$F0,$E0,$10,$F0,$10
 	db $08,$F0,$20,$05,$04,$0A,$00,$02,$0C,$00,$23,$00,$23,$04,$0E,$0C
 	db $02,$04,$22,$00,$22,$00,$04,$0E,$04,$06,$10,$00,$24,$00,$24,$04
@@ -18261,7 +18438,8 @@ DATA_08FCFD:
 	db $03,$03,$01,$03,$01,$00,$03,$01,$04,$00,$04,$01,$04,$01,$00,$02
 	db $01,$01,$00,$02,$00,$02,$04,$03,$00,$02
 
-DATA_08FD67:
+.DoubleExclm:
+; $08FD67
 	db $13,$F0,$C0,$00,$D0,$E0,$10,$D0,$F0,$D0,$D0,$E0,$20,$F0,$30,$E0
 	db $40,$D0,$30,$20,$C0,$30,$D0,$30,$E0,$10,$10,$00,$E0,$10,$20,$20
 	db $20,$20,$30,$10,$40,$00,$30,$04,$05,$00,$02,$04,$06,$08,$23,$24
@@ -18271,11 +18449,66 @@ DATA_08FD67:
 	db $01,$02,$02,$00,$00,$03,$03,$02,$02,$01,$01,$03,$03,$02,$02,$00
 	db $00,$03,$03,$01,$01
 
-DATA_08FDDC:
-	db $03,$00,$00,$00,$00,$00,$00,$01,$03,$00,$02,$04,$00,$00,$00,$00
-	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) == $00 ;[BR]
+.Space:
+; $08FDDC
+	db $03
+	;    X,Y     X,Y     X,Y
+	db $00,$00,$00,$00,$00,$00
+	db $01
+	db $03,	$00,$02,$04,	$00,$00,$00,$00
+	db $00,$00,$00
+	db $00,$00,$00,$00,$00,$00,$00
+endif
 
-if !Define_Global_ROMToAssemble&(!ROM_YI_U2) != $00
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+.F:
+	; Vertex number
+	db $0B
+	;    X,Y
+	db $D0,$C0	;$00
+	db $F8,$C4	;$02
+	db $30,$C8	;$04
+	db $F7,$E8	;$06
+	db $24,$EC	;$08
+	db $F7,$FC	;$0A
+	db $20,$F8	;$0C
+	db $F7,$18	;$0E
+	db $18,$10	;$10
+	db $E4,$40	;$12
+	db $00,$38	;$14
+
+	; Faces number
+	db $03
+	;No of V.,	V.indexes,		Edges orientation
+	db $04,	$00,$02,$14,$12,	$21,$22,$21,$23
+	db $04,	$02,$04,$08,$06,	$21,$24,$21,$00
+	db $04,	$0A,$0C,$10,$0E,	$21,$24,$21,$00
+	; Keyframes list?
+	db $00,$03,$04
+	db $02,$01,$00,$00,	$02,$01,$00,$00
+	db $01,$02,$02,$01,	$01,$02,$02,$01
+	db $00,$00,$01,$02,	$00,$00,$01,$02
+
+.J:
+	; Vertex number
+	db $08
+	;	00(1)	02(2)	04(3)	06(4)	08(5)	0A(6)	0C(7)	0E(8)
+	;    X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y     X,Y
+	db $E8,$C8,$2C,$C0,$B8,$18,$DC,$F8,$00,$28,$20,$30,$EC,$40,$0C,$3A
+
+	; Faces number
+	db $02
+	;No of V.,	V.indexes,			Edges orientation
+	db $05,	$04,$06,$08,$0E,$0C,	$24,$23,$00,$21,$23
+	db $05,	$00,$02,$0A,$0E,$08,	$21,$22,$24,$00,$22
+
+	db $00,$0A,$04
+	db $01,$00,$01,$00, $01,$00,$01,$00
+	db $00,$01,$00,$01, $00,$01,$00,$01
+
+	%FREE_BYTES(NULLROM, 522-113, $FF)
+elseif !Define_Global_ROMToAssemble&(!ROM_YI_U2) != $00
 	%InsertGarbageData($08FDF6, incbin, DATA_08FDF6_YI_U2.bin)
 else
 	%FREE_BYTES($08FDF6, 522, $FF)
@@ -25342,7 +25575,7 @@ CODE_09ACEF:
 	IWT R0, #DATA_09AD5C
 	ADD R9
 	TO R9
-	LOB
+	LOB	;
 	IWT R0, #DATA_09AD61
 	TO R14
 	ADD R5
@@ -25353,12 +25586,12 @@ CODE_09ACEF:
 	FROM R3
 	TO R7
 	SUB R0
-	IWT R0, #DATA_09AD66
+	IWT R0, #YI_GOALLetters_NoOfSprites
 	TO R14
 	ADD R5
 	TO R12
 	GETB
-	IWT R0, #DATA_09AD6B
+	IWT R0, #YI_GOALLetters_OAMDataPtrs
 	ADD R5
 	TO R14
 	ADD R5
@@ -25367,28 +25600,28 @@ CODE_09ACEF:
 	GETBH
 	MOVE R14, R0
 	MOVE R13, R15
-	GETBS
-	INC R14
-	ADD R7
-	STW (R2)
-	INC R2
-	INC R2
-	GETBS
-	INC R14
-	ADD R8
-	STW (R2)
-	INC R2
-	INC R2
-	GETB
-	INC R14
-	GETBH
-	INC R14
-	STW (R2)
-	INC R2
-	INC R2
-	GETB
-	INC R14
-	STW (R2)
+	GETBS		;\ XDisp
+	INC R14		;|
+	ADD R7		;|
+	STW (R2)	;/
+	INC R2		;\ YDisp
+	INC R2		;|
+	GETBS		;|
+	INC R14		;|
+	ADD R8		;|
+	STW (R2)	;/
+	INC R2		;\ Tile/Prop
+	INC R2		;|
+	GETB		;|
+	INC R14		;|
+	GETBH		;|
+	INC R14		;|
+	STW (R2)	;/
+	INC R2		;\ Slot
+	INC R2		;|
+	GETB		;|
+	INC R14		;|
+	STW (R2)	;/
 	INC R2
 	LOOP : INC R2
 	BRA CODE_09ACEF : NOP
@@ -25397,46 +25630,118 @@ CODE_09AD56:
 	SM ($0092), R2
 	STOP : NOP
 
-DATA_09AD5C:
+DATA_09AD5C:		; Note: Related to the vertical waving animation.
 	db $A0,$10,$D0,$40,$00
 
-DATA_09AD61:
+DATA_09AD61:		; Note: Xpos of each letter = ($E0 - Value).
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]	
+	db !Define_YI_GOALLetters_XPosAnchor-$E0	; !
+	db !Define_YI_GOALLetters_XPosAnchor-$B1	; M
+	db !Define_YI_GOALLetters_XPosAnchor-$9C	; I
+	db !Define_YI_GOALLetters_XPosAnchor-$72	; F
+
+YI_GOALLetters_NoOfSprites:
+	db (YI_GOALLetters_OAMData_Excl_End-YI_GOALLetters_OAMData_Excl)/5
+	db (YI_GOALLetters_OAMData_M_End-YI_GOALLetters_OAMData_M)/5
+	db (YI_GOALLetters_OAMData_I_End-YI_GOALLetters_OAMData_I)/5
+	db (YI_GOALLetters_OAMData_F_End-YI_GOALLetters_OAMData_F)/5
+
+YI_GOALLetters_OAMDataPtrs:
+	dw YI_GOALLetters_OAMData_Excl
+	dw YI_GOALLetters_OAMData_M
+	dw YI_GOALLetters_OAMData_I
+	dw YI_GOALLetters_OAMData_F
+.End:
+
+YI_GOALLetters_OAMData:
+;      rX,rY,Tile,Prop,Slot/rX,rY,Tile,Prop,Slot/rX,rY,Tile,Prop,Slot
+.F:
+	db $00,$00,$80,$37,$02, $10,$00,$82,$37,$02, $20,$00,$84,$37,$00
+	db $00,$10,$A0,$37,$02, $10,$10,$A2,$37,$02, $20,$08,$94,$37,$00
+	db $00,$20,$8E,$37,$00, $08,$20,$8F,$37,$00
+	db $00,$28,$B5,$37,$00, $08,$28,$B6,$37,$00
+..End:
+
+.I:
+	db $00,$18,$B8,$37,$00, $00,$10,$B8,$37,$00, $08,$10,$BA,$37,$00
+	db $08,$18,$BA,$37,$00, $00,$20,$8E,$37,$02, $00,$00,$A9,$37,$02
+..End:
+
+.M:
+	db $00,$00,$89,$37,$02, $10,$00,$8B,$37,$02, $00,$20,$A5,$37,$02
+	db $00,$10,$85,$37,$02, $10,$10,$87,$37,$02, $18,$20,$AC,$37,$02
+	db $20,$00,$8D,$37,$00, $20,$08,$9D,$37,$00, $10,$20,$A7,$37,$00
+	db $20,$10,$8F,$37,$00, $20,$18,$8F,$37,$00
+..End:
+
+.Excl:
+	db $00,$18,$B8,$37,$00, $00,$10,$B8,$37,$00, $08,$10,$BA,$37,$00
+	db $08,$18,$BA,$37,$00, $00,$20,$AE,$37,$02, $00,$00,$A9,$37,$02
+..End:
+
+%FREE_BYTES(NULLROM, 109, $FF)
+else
+	;   !   L   A   O   G
 	db $00,$28,$4E,$72,$98
 
-DATA_09AD66:
-	db $06,$0B,$08,$0C,$11
+YI_GOALLetters_NoOfSprites:
+;$09AD66
+	db (YI_GOALLetters_OAMData_Excl_End-YI_GOALLetters_OAMData_Excl)/5	;$06
+	db (YI_GOALLetters_OAMData_L_End-YI_GOALLetters_OAMData_L)/5	;$0B
+	db (YI_GOALLetters_OAMData_A_End-YI_GOALLetters_OAMData_A)/5	;$08
+	db (YI_GOALLetters_OAMData_O_End-YI_GOALLetters_OAMData_O)/5	;$0C
+	db (YI_GOALLetters_OAMData_G_End-YI_GOALLetters_OAMData_G)/5	;$11
 
-DATA_09AD6B:
-	dw DATA_09AE65,DATA_09AE2E,DATA_09AE06,DATA_09ADCA,DATA_09AD75
+YI_GOALLetters_OAMDataPtrs:
+;$09AD6B
+	dw YI_GOALLetters_OAMData_Excl
+	dw YI_GOALLetters_OAMData_L
+	dw YI_GOALLetters_OAMData_A
+	dw YI_GOALLetters_OAMData_O
+	dw YI_GOALLetters_OAMData_G
+.End:
 
-DATA_09AD75:
-	db $20,$20,$BA,$37,$00,$20,$18,$BA,$37,$00,$1A,$10,$A3,$37,$00,$12
-	db $10,$A2,$37,$00,$18,$20,$B4,$37,$00,$10,$18,$B2,$37,$00,$18,$18
-	db $B3,$37,$00,$10,$20,$A2,$37,$00,$20,$28,$95,$37,$00,$00,$28,$BB
-	db $37,$00,$18,$28,$94,$37,$00,$10,$28,$85,$37,$00,$08,$28,$84,$37
-	db $00,$08,$00,$96,$37,$00,$10,$00,$82,$37,$02,$00,$18,$A0,$37,$02
-	db $00,$08,$80,$37,$02
+YI_GOALLetters_OAMData:
+;      rX,rY,Tile,Prop,Slot/rX,rY,Tile,Prop,Slot/rX,rY,Tile,Prop,Slot
+.G:
+;$09AD75
+	db $20,$20,$BA,$37,$00, $20,$18,$BA,$37,$00, $1A,$10,$A3,$37,$00
+	db $12,$10,$A2,$37,$00, $18,$20,$B4,$37,$00, $10,$18,$B2,$37,$00
+	db $18,$18,$B3,$37,$00, $10,$20,$A2,$37,$00, $20,$28,$95,$37,$00
+	db $00,$28,$BB,$37,$00, $18,$28,$94,$37,$00, $10,$28,$85,$37,$00
+	db $08,$28,$84,$37,$00, $08,$00,$96,$37,$00, $10,$00,$82,$37,$02
+	db $00,$18,$A0,$37,$02, $00,$08,$80,$37,$02
+..End:
 
-DATA_09ADCA:
-	db $18,$08,$80,$77,$02,$10,$20,$A2,$37,$00,$00,$28,$BB,$37,$00,$20
-	db $28,$95,$37,$00,$18,$28,$94,$37,$00,$10,$28,$85,$37,$00,$08,$28
-	db $84,$37,$00,$18,$18,$A4,$37,$02,$08,$00,$96,$37,$00,$10,$00,$82
-	db $37,$02,$00,$08,$80,$37,$02,$00,$18,$A0,$37,$02
+.O:
+;$09ADCA
+	db $18,$08,$80,$77,$02, $10,$20,$A2,$37,$00, $00,$28,$BB,$37,$00
+	db $20,$28,$95,$37,$00, $18,$28,$94,$37,$00, $10,$28,$85,$37,$00
+	db $08,$28,$84,$37,$00, $18,$18,$A4,$37,$02, $08,$00,$96,$37,$00
+	db $10,$00,$82,$37,$02, $00,$08,$80,$37,$02, $00,$18,$A0,$37,$02
+..End:
 
-DATA_09AE06:
-	db $0F,$00,$86,$37,$00,$17,$00,$87,$37,$00,$18,$08,$88,$37,$00,$18
-	db $20,$AB,$37,$02,$18,$10,$8B,$37,$02,$08,$08,$89,$37,$02,$08,$18
-	db $97,$37,$02,$00,$20,$A6,$37,$02
+.A:
+;$09AE06
+	db $0F,$00,$86,$37,$00, $17,$00,$87,$37,$00, $18,$08,$88,$37,$00
+	db $18,$20,$AB,$37,$02, $18,$10,$8B,$37,$02, $08,$08,$89,$37,$02
+	db $08,$18,$97,$37,$02, $00,$20,$A6,$37,$02
+..End:
 
-DATA_09AE2E:
-	db $08,$18,$B8,$37,$00,$08,$10,$B8,$37,$00,$18,$20,$A2,$37,$00,$18
-	db $28,$85,$37,$00,$20,$28,$BD,$37,$00,$20,$20,$AD,$37,$00,$10,$10
-	db $BA,$37,$00,$10,$18,$BA,$37,$00,$08,$00,$A9,$37,$02,$08,$20,$8E
-	db $37,$02,$00,$20,$8D,$37,$02
+.L:
+;$09AE2E
+	db $08,$18,$B8,$37,$00, $08,$10,$B8,$37,$00, $18,$20,$A2,$37,$00
+	db $18,$28,$85,$37,$00, $20,$28,$BD,$37,$00, $20,$20,$AD,$37,$00
+	db $10,$10,$BA,$37,$00, $10,$18,$BA,$37,$00, $08,$00,$A9,$37,$02
+	db $08,$20,$8E,$37,$02, $00,$20,$8D,$37,$02
+..End:
 
-DATA_09AE65:
-	db $00,$18,$B8,$37,$00,$00,$10,$B8,$37,$00,$08,$10,$BA,$37,$00,$08
-	db $18,$BA,$37,$00,$00,$20,$AE,$37,$02,$00,$00,$A9,$37,$02
+.Excl:
+;$09AE65
+	db $00,$18,$B8,$37,$00, $00,$10,$B8,$37,$00, $08,$10,$BA,$37,$00
+	db $08,$18,$BA,$37,$00, $00,$20,$AE,$37,$02, $00,$00,$A9,$37,$02
+..End:
+endif
 
 ;---------------------------------------------------------------------------
 
@@ -25987,7 +26292,7 @@ CODE_09B534:
 	LM R0, ($4072)
 	LOB
 	UMULT #12
-	IWT R1, #DATA_09BD2F
+	IWT R1, #GFX_1BPPFont
 	TO R14
 	ADD R1
 	LM R0, ($4086)
@@ -26047,7 +26352,7 @@ CODE_09B585:
 	SBK
 	LM R0, ($4072)
 	LOB
-	IWT R1, #DATA_09BC2F
+	IWT R1, #MessageFont_WidthTable
 	TO R14
 	ADD R1
 	GETB
@@ -26088,7 +26393,7 @@ CODE_09B5C4:
 	LM R0, ($4072)
 	LOB
 	UMULT #12
-	IWT R1, #DATA_09BD2F
+	IWT R1, #GFX_1BPPFont
 	TO R14
 	ADD R1
 	IWT R13, #CODE_09B5F5
@@ -26131,7 +26436,7 @@ CODE_09B60D:
 	SBK
 	LM R0, ($4072)
 	LOB
-	IWT R1, #DATA_09BC2F
+	IWT R1, #MessageFont_WidthTable
 	TO R14
 	ADD R1
 	GETB
@@ -26238,7 +26543,7 @@ CODE_09B6E6:
 	BEQ CODE_09B6F6 : NOP
 	IBT R0, #!Define_YI_SoundID5C_ScrollTextbox
 	SMS ($7A), R0
-CODE_09B6F6:
+CODE_09B6F6:				; Note: Text command $0FFF.
 	IWT R0, #$04C0
 	LM R1, ($4076)
 	AND R1
@@ -26294,7 +26599,7 @@ CODE_09B754:
 	IWT R0, #$0001
 	IWT R15, #CODE_09B76D : NOP
 
-CODE_09B75B:
+CODE_09B75B:	; Note: Text command $12FF.
 	IBT R0, #$02
 	IWT R15, #CODE_09B76D : NOP
 
@@ -26481,7 +26786,11 @@ DATA_09B8B0:
 	db $07,$40,$02,$20
 
 DATA_09B8B4:
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR] Lost life screen's "No" cursor fix.
+	db $37,$40,$02,$30
+else
 	db $34,$40,$02,$30
+endif
 
 DATA_09B8B8:
 	db $02,$08
@@ -26673,14 +26982,14 @@ CODE_09B9F4:
 	TO R2
 	ADD #15
 	INC R1
-	IBT R0, #DATA_09C92F>>16
+	IBT R0, #MessageBoxPictures>>16
 	ROMB
 CODE_09BA2C:
 	MOVE R1, R3
 	MOVE R11, R10
 	MOVE R12, R8
 	MOVE R13, R15
-	IWT R0, #DATA_09C92F
+	IWT R0, #MessageBoxPictures
 	ADD R9
 	TO R14
 	ADD R11
@@ -26809,7 +27118,7 @@ CODE_09BB18:
 	LM R0, ($4090)
 	LOB
 	UMULT #12
-	IWT R1, #DATA_09BD2F
+	IWT R1, #GFX_1BPPFont
 	TO R14
 	ADD R1
 	LM R0, ($408E)
@@ -26866,7 +27175,7 @@ CODE_09BB68:
 	RPIX
 	LM R0, ($4090)
 	LOB
-	IWT R1, #DATA_09BC2F
+	IWT R1, #MessageFont_WidthTable
 	TO R14
 	ADD R1
 	GETB
@@ -26906,7 +27215,7 @@ CODE_09BBA2:
 	LM R0, ($4090)
 	LOB
 	UMULT #12
-	IWT R1, #DATA_09BD2F
+	IWT R1, #GFX_1BPPFont
 	TO R14
 	ADD R1
 	IWT R13, #CODE_09BBD2
@@ -26946,7 +27255,7 @@ CODE_09BBEA:
 	RPIX
 	LM R0, ($4090)
 	LOB
-	IWT R1, #DATA_09BC2F
+	IWT R1, #MessageFont_WidthTable
 	TO R14
 	ADD R1
 	GETB
@@ -26973,7 +27282,27 @@ CODE_09BC26:
 	SM ($4084), R1
 	LM R15, ($4092) : NOP
 
-DATA_09BC2F:
+MessageFont_WidthTable:
+; $09BC2F
+;		00	01	02	03	04	05	06	07	08	09	0A	0B	0C	0D	0E	0F
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR] Edited table my Mattrizzle (except tilde As and tilde Os).
+	db $08,$08,$08,$08,$07,$07,$04,$08,$08,$08,$08,$08,$08,$08,$08,$08	;00
+	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08	;10
+	db $08,$08,$08,$08,$08,$08,$04,$04,$08,$08,$08,$05,$08,$08,$08,$08	;20
+	db $08,$08,$08,$08,$08,$08,$08,$04,$08,$03,$07,$06,$07,$06,$07,$03	;30
+	db $08,$08,$08,$07,$07,$07,$06,$08,$08,$08,$06,$05,$07,$08,$08,$05	;40
+	db $08,$08,$08,$08,$08,$08,$08,$04,$08,$08,$05,$06,$07,$07,$08,$08	;50
+	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08	;60
+	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08	;70
+	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08	;80
+	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08	;90
+	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$07,$07	;A0
+	db $08,$08,$05,$08,$08,$07,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08	;B0
+	db $08,$08,$08,$08,$05,$05,$08,$08,$08,$08,$08,$08,$08,$07,$08,$08	;C0
+	db $04,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$07,$07,$08,$08	;D0
+	db $04,$07,$08,$04,$08,$08,$08,$08,$08,$07,$08,$08,$08,$08,$08,$08	;E0
+	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08	;F0
+else
 	db $08,$08,$08,$08,$08,$08,$05,$08,$08,$08,$08,$08,$08,$08,$08,$08
 	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08
 	db $08,$08,$08,$08,$08,$08,$04,$04,$08,$08,$08,$08,$08,$08,$08,$08
@@ -26990,29 +27319,40 @@ DATA_09BC2F:
 	db $04,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$07,$07,$08,$08
 	db $04,$07,$08,$04,$08,$08,$08,$08,$08,$07,$08,$08,$08,$08,$08,$08
 	db $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08
-
-DATA_09BD2F:
+endif
+GFX_1BPPFont:
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) && !Define_Global_ROMToAssemble&(!ROM_YI_U1) != $00 ;[BR]
+	incbin "Graphics/GFX_1BPPFont_HACK_YI_br.bin"
+else
 	%InsertVersionExclusiveFile($09BD2F, incbin, Graphics/GFX_1BPPFont_, !ROMID.bin, )
+endif
 
-DATA_09C92F:
+MessageBoxPictures:
+; $09C92F
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	incbin "Graphics/GFX_1BPPMessageBoxPictures_br.bin"
+else
 	incbin "Graphics/GFX_1BPPMesaageBoxPictures.bin"
+endif
+
+; Note: Routine for rendering the level names tiles.
 
 CODE_09E92F:
-	ROMB
-	FROM R14
-	ADD R14
-	TO R14
-	ADD R10
-	TO R10
-	GETB
-	INC R14
-	WITH R10
-	GETBH
-	IBT R0, #$02
-	COLOR
+	ROMB		;\ Sets address of the names data.
+	FROM R14	;| Bank = R0.
+	ADD R14		;| Pointers address = R10, using R14 as a word index.
+	TO R14		;|
+	ADD R10		;/
+	TO R10			;\ Saves word on R10
+	GETB			;|
+	INC R14			;|
+	WITH R10		;|
+	GETBH			;/
+	IBT R0, #$02	;\ Screen mode: 16 colors, height of 128px, WRAM and ROM access to SNES
+	COLOR			;/
 	IWT R13, #CODE_09E986+$02
 	CACHE
-	IWT R3, #$00FF
+	IWT R3, #$00FF			; Sets up R3 for a commands byte check
 	FROM R10
 	TO R14
 	ADD R11
@@ -27021,24 +27361,24 @@ if !Define_Global_ROMToAssemble&(!ROM_YI_U2) != $00
 else
 	SMS ($3E), R0
 endif
-	CMP R3
-	BEQ CODE_09E963 : DEC R3
-	CMP R3
-	BEQ CODE_09E95F : DEC R3
-	CMP R3
-	BNE CODE_09E96A : NOP
-	IWT R15, #CODE_09E9AD : NOP
+	CMP R3							;\ $FF = Use previous Y coord
+	BEQ CODE_09E963 : DEC R3		;/ ($00 if it's the first letter)
+	CMP R3							;\ $FE = Change Y coord
+	BEQ CODE_09E95F : DEC R3		;/
+	CMP R3							;\ $FD = Exits routine
+	BNE CODE_09E96A : NOP			;|
+	IWT R15, #CODE_09E9AD : NOP		;/
 
-CODE_09E95F:
-	INC R11
-	INC R14
-	TO R8
-	GETB
+CODE_09E95F:		;\ Updates R8 (the PLOT's Y coord "buffer") by using the byte after $FE.
+	INC R11			;|
+	INC R14			;|
+	TO R8			;|
+	GETB			;/
 CODE_09E963:
 	INC R11
 	INC R14
-	TO R9
-	GETB
+	TO R9		;\ R9 is used as a buffer for the PLOT's X coord.
+	GETB		;/
 	INC R11
 	INC R14
 	GETB
@@ -27050,48 +27390,93 @@ endif
 	INC R11
 	IBT R6, #$0C
 	LMULT
-	IBT R0, #DATA_09BD2F>>16
+	IBT R0, #GFX_1BPPFont>>16
 	ROMB
-	IWT R0, #DATA_09BD2F
+	IWT R0, #GFX_1BPPFont
 	TO R14
 	ADD R4
-	IBT R3, #$0C
+	IBT R3, #$0C	; Amount of bytes in 1 character.
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	IWT R10, #$80	; Xcoord limit reference.
+	MOVE R7, R8		; R7 is used as a middleman so that R2 can alternate between two values at two different points.
+else
 	MOVE R2, R8
+endif
 CODE_09E97C:
+; Note: Full character loop.
 	IBT R12, #$08
 	MOVE R1, R9
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	MOVE R2, R7
+endif
 	IBT R0, #$00
-	GETBL
-	TO R5
-	SWAP
+	GETBL			;\ Gets byte from the font GFX
+	TO R5			;|
+	SWAP			;/
 CODE_09E986:
-	BEQ CODE_09E994 : WITH R5
-	ROL
-	BCC CODE_09E991 : NOP
+; Note: Pixel row loop.
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	BEQ CODE_09E992 : NOP
+	WITH R5
+else
+	BEQ CODE_09E994 : WITH R5	; Skips plotting if all bits are background pixels.
+endif
+	ROL						;\ Skips this bit if it's a background pixel.
+	BCC CODE_09E991 : NOP	;/
 	PLOT
 	BRA CODE_09E992 : NOP
 
 CODE_09E991:
 	INC R1
 CODE_09E992:
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00
+;[BR] If R1 >= $80, the pixel will be out of the plotting area, thus wrap this character with the next line.
+	FROM R1			;\ X coord check
+	CMP R10			;|
+	BCC + : NOP		;/
+
+	IBT R1, #$00	; Wrap X back to zero
+	IBT R6, #$10	;\ Align Y to the bottom line
+	WITH R2			;|
+	ADD R6			;/
++:
+endif
 	LOOP : NOP
 CODE_09E994:
 	DEC R3
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	BEQ CODE_09E99C : INC R7
+else
 	BEQ CODE_09E99C : INC R2
+endif
 	INC R14
 	BRA CODE_09E97C : NOP
 
-CODE_09E99C:
+CODE_09E99C:	; Note: Update R9 buffer using the VWF table
 	RPIX
-	IBT R0, #DATA_09BC2F>>16
+	IBT R0, #MessageFont_WidthTable>>16
 	ROMB
-	IWT R14, #DATA_09BC2F
+	IWT R14, #MessageFont_WidthTable
 	LMS R0, ($3E)
 	TO R14
 	ADD R14
 	GETB
 	TO R9
 	ADD R9
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	FROM R9			;\ X coord check
+	CMP R10			;|
+	BCC + : NOP		;/
+
+	; If the new Xcoord is equal or greater than $80:
+	WITH R9		;\ Wrap X back
+	SUB R10		;/
+	
+	IBT R6, #$10	;\ Update R8 for next letter
+	WITH R8			;|
+	ADD R6			;/
++:
+endif
 CODE_09E9AD:
 	STOP : NOP
 
@@ -27103,32 +27488,32 @@ CODE_09E9AF:
 	CMODE
 	SMS ($B0), R0
 CODE_09E9B7:
-	LMS R0, ($AA)
-	ROMB
-	LMS R14, ($A8)
-	TO R11
-	GETB
-	INC R14
-	SMS ($A8), R14
-	MOVE R0, R11
-	SMS ($3E), R0
-	IWT R3, #$00FF
-	CMP R3
-	BEQ CODE_09EA06 : DEC R3
-	CMP R3
-	BEQ CODE_09E9F1 : DEC R3
-	CMP R3
-	BEQ CODE_09E9F1 : DEC R3
-	CMP R3
-	BEQ CODE_09E9F1 : DEC R3
-	CMP R3
-	BEQ CODE_09E9F1 : DEC R3
-	IBT R3, #$FE
-	LMS R0, ($B0)
-	LOB
-	BEQ CODE_09E9F1 : NOP
-	IBT R3, #$F9
-CODE_09E9F1:
+	LMS R0, ($AA)		;\ Gets byte from text data
+	ROMB				;|
+	LMS R14, ($A8)		;|
+	TO R11				;|
+	GETB				;/
+	INC R14				;\ Saves pointer for next byte on $A8
+	SMS ($A8), R14		;/
+	MOVE R0, R11		;\ Saves byte on $3E
+	SMS ($3E), R0		;/
+	IWT R3, #$00FF			; Commands byte check:
+	CMP R3						;\ $FF = Exits routine
+	BEQ CODE_09EA06 : DEC R3	;/
+	CMP R3						;\ $FE
+	BEQ CODE_09E9F1 : DEC R3	;/
+	CMP R3						;\ $FD
+	BEQ CODE_09E9F1 : DEC R3	;/
+	CMP R3						;\ $FC
+	BEQ CODE_09E9F1 : DEC R3	;/
+	CMP R3						;\ $FB
+	BEQ CODE_09E9F1 : DEC R3	;/
+	IBT R3, #$FE			; Sets R3 (effectively) to $FF.
+	LMS R0, ($B0)			;\ If low byte of $B0 is not zero, set R3 to (effectively) $FA instead.
+	LOB						;|
+	BEQ CODE_09E9F1 : NOP	;|
+	IBT R3, #$F9			;/
+CODE_09E9F1:	; Set up jump table based on R3/command byte.
 	INC R3
 	IBT R0, #DATA_09EA08>>16
 	ROMB
@@ -27148,7 +27533,7 @@ CODE_09EA06:
 	STOP : NOP
 
 DATA_09EA08:
-	dw CODE_09EA14
+	dw CODE_09EA14		; Normal character render
 	dw CODE_09EA8D
 	dw CODE_09EAB8
 	dw CODE_09EACC
@@ -27156,24 +27541,24 @@ DATA_09EA08:
 	dw CODE_09EAE9
 
 CODE_09EA14:
-	IBT R0, #DATA_09BD2F>>16
+	IBT R0, #GFX_1BPPFont>>16
 	ROMB
 	IBT R6, #$0C
 	FROM R11
 	LMULT
-	IWT R14, #DATA_09BD2F
+	IWT R14, #GFX_1BPPFont
 	FROM R14
 	TO R9
 	ADD R4
-	LMS R5, ($AC)
-	MOVE R2, R5
+	LMS R5, ($AC)			;\ Sets up PLOT's Y coord
+	MOVE R2, R5				;/
 	IBT R3, #$07
 	IBT R4, #$7F
 	IWT R13, #CODE_09EA47
 CODE_09EA2F:
-	MOVE R14, R9
-	IBT R12, #$08
-	LMS R1, ($AE)
+	MOVE R14, R9			; Char. graphics pointer
+	IBT R12, #$08			; Loops 8 times
+	LMS R1, ($AE)			; Sets up PLOT's X coord
 	GETB
 	TO R10
 	SWAP
@@ -27198,7 +27583,7 @@ CODE_09EA47:
 	PLOT
 	WITH R1
 	AND R4
-	BNE CODE_09EA5A : NOP
+	BNE CODE_09EA5A : NOP		; Glitch: If the letter being currently rendered starts exactly at X coord. $7F, this branch is not taken as it should've, which makes the 2nd half of the sentence disappear on-screen.
 	IBT R0, #$20
 	TO R2
 	ADD R2
@@ -27208,7 +27593,7 @@ CODE_09EA5A:
 	MOVE R2, R5
 	DEC R3
 	BPL CODE_09EA2F : NOP
-	IWT R14, #DATA_09BC2F
+	IWT R14, #MessageFont_WidthTable
 	LMS R0, ($3E)
 	TO R14
 	ADD R14
@@ -27281,12 +27666,12 @@ CODE_09EAE0:
 	IWT R15, #CODE_09E9B7 : NOP
 
 CODE_09EAE9:
-	IBT R0, #DATA_09BD2F>>16
+	IBT R0, #GFX_1BPPFont>>16
 	ROMB
 	IBT R6, #$0C
 	FROM R11
 	LMULT
-	IWT R14, #DATA_09BD2F
+	IWT R14, #GFX_1BPPFont
 	FROM R14
 	TO R9
 	ADD R4
@@ -27377,7 +27762,7 @@ CODE_09EB64:
 	BRA CODE_09EB44 : INC R9
 
 CODE_09EB72:
-	IWT R14, #DATA_09BC2F
+	IWT R14, #MessageFont_WidthTable
 	LMS R0, ($3E)
 	TO R14
 	ADD R14
@@ -27468,9 +27853,9 @@ CODE_09EC09:
 	SMS ($3E), R0
 	IBT R6, #$0C
 	LMULT
-	IBT R0, #DATA_09BD2F>>16
+	IBT R0, #GFX_1BPPFont>>16
 	ROMB
-	IWT R0, #DATA_09BD2F
+	IWT R0, #GFX_1BPPFont
 	TO R14
 	ADD R4
 	MOVE R2, R11
@@ -27493,7 +27878,7 @@ CODE_09EC2B:
 	DEC R6
 	BNE CODE_09EC1B : INC R2
 	RPIX
-	IWT R14, #DATA_09BC2F
+	IWT R14, #MessageFont_WidthTable
 	LMS R0, ($3E)
 	TO R14
 	ADD R14
@@ -27550,9 +27935,9 @@ CODE_09EC8E:
 	SMS ($3E), R0
 	IBT R6, #$0C
 	LMULT
-	IBT R0, #DATA_09BD2F>>16
+	IBT R0, #GFX_1BPPFont>>16
 	ROMB
-	IWT R0, #DATA_09BD2F
+	IWT R0, #GFX_1BPPFont
 	TO R14
 	ADD R4
 	MOVE R2, R11
@@ -27586,7 +27971,7 @@ CODE_09ECBF:
 	DEC R6
 	BNE CODE_09ECA2 : NOP
 	RPIX
-	IWT R14, #DATA_09BC2F
+	IWT R14, #MessageFont_WidthTable
 	LMS R0, ($3E)
 	TO R14
 	ADD R14
@@ -27602,9 +27987,9 @@ CODE_09ECD8:
 	CACHE
 	IBT R0, #$11
 	CMODE
-	IBT R0, #DATA_09BD2F>>16
+	IBT R0, #GFX_1BPPFont>>16
 	ROMB
-	IWT R14, #DATA_09BD2F
+	IWT R14, #GFX_1BPPFont
 	IBT R0, #$01
 	COLOR
 	GETB
@@ -27754,8 +28139,11 @@ CODE_09ED9B:
 	INC R10
 	LOOP : INC R10
 	STOP : NOP
-
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	%FREE_BYTES(NULLROM, 624-30, $01)
+else
 	%FREE_BYTES($09EDCE, 624, $01)
+endif
 
 CODE_09F03E:
 	SUB R0
@@ -28459,6 +28847,7 @@ CODE_09F7AC:
 	STOP : NOP
 
 ;---------------------------------------------------------------------------
+; Note: Routine that draws the block of text after Bowser's fight.
 
 CODE_09F7BC:
 	CACHE
@@ -28497,16 +28886,16 @@ CODE_09F7EB:
 	IBT R6, #$10
 CODE_09F7F1:
 	MOVE R4, R14
-	IBT R14, #DATA_09BD2F>>16
+	IBT R14, #GFX_1BPPFont>>16
 	FROM R14
 	ROMB
-	IWT R14, #DATA_09BC2F
+	IWT R14, #MessageFont_WidthTable
 	TO R14
 	ADD R14
 	TO R7
 	GETB
 	UMULT #12
-	IWT R14, #DATA_09BD2F
+	IWT R14, #GFX_1BPPFont
 	TO R14
 	ADD R14
 	IBT R8, #$0C
@@ -29023,6 +29412,10 @@ endif
 ;#############################################################################################################
 
 %SuperFXBankStart(!FXBank0A)
+; Note: Routine responsible for LZ16 decompression.
+; R1 = Data pointer (low)
+; R0 = Data pointer (Bank)
+; R3 = 
 
 CODE_0A8000:
 	ROMB
@@ -73129,15 +73522,15 @@ DATA_5110DB:
 	dw DATA_511E96
 	dw DATA_511F64
 	dw DATA_51203B
-	dw DATA_513DF8
+	dw Msg_Nothing
 	dw DATA_5120B7
 	dw DATA_5121A2
 	dw DATA_512256
 	dw DATA_512256
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_512256
 	dw DATA_512256
 	dw DATA_512316
@@ -73146,20 +73539,20 @@ DATA_5110DB:
 	dw DATA_5123C0
 	dw DATA_512409
 	dw DATA_5120B7
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_512456
 	dw DATA_51249E
 	dw DATA_51249E
 	dw DATA_51249E
 	dw DATA_51203B
 	dw DATA_5141F8
-	dw DATA_511333
-	dw DATA_5113FE
+	dw Msg_Intro1
+	dw Msg_Intro2
 	dw DATA_5133AE
-	dw DATA_5115DD
+	dw Msg_FirstTutorial
 	dw DATA_51335D
 	dw DATA_513CE0
 	dw DATA_51427B
@@ -73182,18 +73575,18 @@ DATA_5110DB:
 	dw DATA_512918
 	dw DATA_512918
 	dw DATA_512958
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_51299A
 	dw DATA_51299A
 	dw DATA_512A3A
 	dw DATA_512A3A
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_512A3A
 	dw DATA_512A3A
 	dw DATA_512A83
@@ -73218,34 +73611,34 @@ DATA_5110DB:
 	dw $0000
 	dw $0000
 	dw $0000
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_512BE5
 	dw DATA_512BE5
 	dw DATA_512CB0
 	dw DATA_512CB0
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_512CB0
 	dw DATA_512D47
 	dw DATA_512E14
@@ -73260,8 +73653,8 @@ DATA_5110DB:
 	dw $0000
 	dw DATA_5144F8
 	dw DATA_514967
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw $0000
 	dw $0000
 	dw $0000
@@ -73278,26 +73671,26 @@ DATA_5110DB:
 	dw DATA_513082
 	dw DATA_513082
 	dw DATA_513082
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_513082
 	dw DATA_5130D0
 	dw DATA_5130D0
 	dw DATA_5130D0
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_513694
 	dw DATA_5136DD
 	dw $0000
@@ -73318,10 +73711,10 @@ DATA_5110DB:
 	dw DATA_51311F
 	dw DATA_51311F
 	dw DATA_51311F
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_51311F
 	dw DATA_513250
 	dw DATA_513250
@@ -73330,18 +73723,18 @@ DATA_5110DB:
 	dw DATA_5132F8
 	dw DATA_5132F8
 	dw DATA_5132F8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_5132F8
 	dw DATA_513342
 	dw DATA_513342
@@ -73362,34 +73755,34 @@ DATA_5110DB:
 	dw $0000
 	dw $0000
 	dw $0000
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_513342
 	dw DATA_51335D
 	dw DATA_51335D
@@ -73404,8 +73797,8 @@ DATA_5110DB:
 	dw $0000
 	dw DATA_51482E
 	dw DATA_514967
-	dw DATA_513DF8
-	dw DATA_513DF8
+	dw Msg_Nothing
+	dw Msg_Nothing
 	dw DATA_511B69
 	dw $0000
 	dw $0000
@@ -73423,1176 +73816,175 @@ DATA_5110DB:
 	dw DATA_5140D3
 	dw DATA_513DFA
 
-DATA_511333:
-	dw $05FF : db "This paradise is"
-	dw $06FF : db "Yoshi's Island,"
-	dw $07FF : db "where all the"
-	dw $08FF : db "Yoshies live."
-	dw $0EFF : db "They are all in an"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "uproar over the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "baby that fell"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "from the sky."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	!Msg_Subfolder = "YI_br/MessageBox"
+else
+	!Msg_Subfolder = "MessageBox"
+endif
 
-DATA_5113FE:
-	dw $05FF : db "Wait! The baby"
-	dw $06FF : db "seems to know"
-	dw $07FF : db "where he wants to"
-	dw $08FF : db "go ..."
-	dw $0EFF : db "The bond between"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the twins informs"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "each of them where"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the other one is."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "The Yoshies decide"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "to carry the baby"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "to his destination"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "via a relay system",$3F
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Now begins a new"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "adventure for the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Yoshies and baby"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Mario."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
-DATA_5115DD:
-	dw $05FF : db "If baby Mario falls"
-	dw $06FF : db "off Yoshi's back,"
-	dw $07FF : db "the Countdown"
-	dw $08FF : db "Timer will begin."
-	dw $0EFF : db "When it reaches 0,"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Kamek's toadies"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "will kidnap baby"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Mario!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "The more Stars ",$F6,$F7
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "you collect, the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "safer you are."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db ""
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "The Countdown"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Timer will slowly"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "count back up to"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "10."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Complete a stage"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "by passing baby"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Mario to the next"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Yoshi."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+Msg_Intro1:
+	; $511333
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Intro1.txt")
+Msg_Intro2:
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Intro2.txt")
+Msg_FirstTutorial:
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/FirstTutorial.txt")
 DATA_511820:
-	dw $05FF : db "   Hovering Jump:"
-	dw $06FF : db "By holding ",$1A,$1B
-	dw $07FF : db "down, you can"
-	dw $08FF : db "hover in the air"
-	dw $0EFF : db "for a short time."
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Make the extra"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "effort!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_HoveringJump.txt")
 DATA_5118C5:
-	dw $05FF : db "    Making eggs:"
-	dw $60FF : db $00,$00,$00,$80,$30,$00,$10
-	dw $0EFF : db "Grab an enemy with"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db $1C,$1D,",then press ",$30
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "on ",$CA,$CB," to make an"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "egg."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Now try throwing"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the egg,"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "press ",$18,$19,"!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_MakingEggs.txt")
 DATA_5119BC:
-	dw $05FF : db "   Throwing eggs:"
-	dw $60FF : db $00,$80,$00,$80,$30,$00,$10
-	dw $0EFF : db "Press ",$18,$19," once and"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the aiming cursor"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "will begin to move."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db ""
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Press ",$18,$19," again to"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "throw the egg!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "When you find ",$F4,$F5
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "hit it with an egg."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Cool stuff will"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "happen! To cancel"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the throw, press"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db $30," on ",$CA,$CB,"."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_ThrowingEggs1.txt")
 DATA_511B69:
-	dw $05FF : db "   Throwing eggs:"
-	dw $60FF : db $00,$80,$00,$80,$30,$00,$10
-	dw $0EFF : db "Press and hold ",$18,$19
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "and the aiming"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "cursor will begin"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "to move."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Release ",$18,$19," to"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "throw the egg!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "When you find ",$F4,$F5
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "hit it with an egg."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Cool stuff will"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "happen! To cancel"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the throw, press"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db $30," on ",$CA,$CB,"."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_ThrowingEggs2.txt")
 DATA_511D15:
-	dw $05FF : db "In each level,"
-	dw $06FF : db "20 red coins are"
-	dw $07FF : db "hidden among the"
-	dw $08FF : db "yellow ones."
-	dw $0EFF : db "They each add 1"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "point to your"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "score."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_RedCoins.txt")
 DATA_511DB5:
-	dw $05FF : db "Chomp Rock is a"
-	dw $06FF : db "useful object."
-	dw $07FF : db "Push it and it will"
-	dw $08FF : db "roll, bowling over"
-	dw $0EFF : db "your enemies. If it"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "gets stuck, stand"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "on one edge and it"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "will start rolling!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_ChompRock.txt")
 DATA_511E96:
-	dw $05FF : db "Press ",$D2,"Start",$D2," to"
-
-	dw $06FF : db "display your"
-	dw $07FF : db "score. To use"
-	dw $08FF : db "special items, use"
-	dw $0EFF : db $2D," and ",$2E," on ",$CA,$CB," to"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "choose an item"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "and press ",$18,$19,"."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "To exit, press ",$1A,$1B,$3F
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_PauseMenu.txt")
 DATA_511F64:
-	dw $05FF : db "You can morph"
-	dw $06FF : db "into a helicopter"
-	dw $07FF : db "by touching the"
-	dw $08FF : db "helicopter bubble."
-	dw $0EFF : db "Touch the Yoshi"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Block in time and"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "baby Mario will be"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "warped to Yoshi."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_Transform.txt")
 DATA_51203B:
-	dw $05FF : db "Do you remember?"
-	dw $06FF : db "Press ",$1C,$1D," and ",$30
-	dw $07FF : db "on ",$CA,$CB," to make an"
-	dw $08FF : db "egg."
-	dw $0EFF : db "Press ",$18,$19," to throw"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "an egg."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_EggsReminder.txt")
 DATA_5120B7:
-	dw $05FF : db "Pound The Ground:"
-	dw $60FF : db $00,$30,$00,$80,$30,$00,$10
-	dw $0EFF : db "Press ",$30," on ",$CA,$CB
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "while in the air."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Yoshi will ",$D2,"Pound"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "The Ground.",$D2," This"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "has many uses,"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "and it rocks!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_PoundTheGround.txt")
 DATA_5121A2:
-	dw $05FF : db "There are two"
-	dw $06FF : db "Controller"
-	dw $07FF : db "Configurations"
-	dw $08FF : db "for egg throwing",$3F
-	dw $0EFF : db "Would you like to"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "switch?"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db ""
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "  ",$D4,"No        Yes"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $52FF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/EggConfig.txt")
 DATA_512256:
-	dw $05FF : db "There are very"
-	dw $06FF : db "dangerous Donut"
-	dw $07FF : db "Lifts in this"
-	dw $08FF : db "stage."
-	dw $0EFF : db "They will fall"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "shortly after you"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "stand on them."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Step lightly!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_DonutLifts.txt")
 DATA_512316:
-	dw $05FF : db "Yellow eggs create"
-	dw $06FF : db "coins. Red eggs"
-	dw $07FF : db "create 2 Stars ",$F6,$F7,$3F
-	dw $08FF : db "Flashing eggs???"
-	dw $0EFF : db "Hit an enemy to"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "receive these"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "prizes."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_EggsColors.txt")
 DATA_5123C0:
-	dw $05FF : db "Morph into the"
-	dw $06FF : db "Mole Tank here."
-	dw $07FF : db "Dig like mad to"
-	dw $08FF : db "find 2 red coins!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/MoleTank.txt")
 DATA_512409:
-	dw $05FF : db "Step on ",$F8,$F9," when"
-	dw $06FF : db "you find them."
-	dw $07FF : db "Here you will find"
-	dw $08FF : db "a secret entrance",$3F
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/RedSwitch.txt")
 DATA_512456:
-	dw $05FF : db "Top Secret - Tell"
-	dw $06FF : db "no one. Aim"
-	dw $07FF : db "directly at the"
-	dw $08FF : db "top right corner!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/TopSecret.txt")
 DATA_51249E:
-	dw $05FF : db "Hit the Block to"
-	dw $06FF : db "the right with an"
-	dw $07FF : db "egg and some"
-	dw $08FF : db "platforms will flip!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Hint_FlipBlock.txt")
 DATA_5124EB:
-	dw $05FF : db "First, touch a"
-	dw $06FF : db "Super Star and"
-	dw $07FF : db "become Powerful"
-	dw $08FF : db "Mario!"
-	dw $0EFF : db "Hold ",$2D," or ",$2E," on ",$CA,$CB,","
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "you can run up a"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "wall and across"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the ceiling!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Hold ",$1A,$1B," to float!"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Hold ",$1C,$1D," to dash!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_PowerfulMarioA.txt")
 DATA_5125F7:
-	dw $05FF : db "This dog's name is"
-	dw $06FF : db $D2,"Poochy.",$D2," He is"
-	dw $07FF : db "cute, isn't he?"
-	dw $08FF : db "Hitch a ride!"
-	dw $0EFF : db "He runs in the"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "direction that"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Yoshi faces."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_Poochy.txt")
 DATA_5126A0:
-	dw $05FF : db "Hit ",$34,$35," with an egg"
-	dw $06FF : db "and it will fly off"
-	dw $07FF : db "in the direction ",$34,$35
-	dw $08FF : db "currently points."
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_CloudArrow.txt")
 DATA_5126F5:
-	dw $05FF : db "Touch a Super"
-	dw $06FF : db "Star and become"
-	dw $07FF : db "Powerful Mario!"
-	dw $08FF : db "This is super!!"
-	dw $0EFF : db "Dash with ",$1C,$1D,"!"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Float in the air!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Run up a wall!!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "You are invincible!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_PowerfulMarioB.txt")
 DATA_5127C7:
-	dw $05FF : db "      Warning:"
-	dw $06FF : db "Only someone small"
-	dw $07FF : db "can go on from"
-	dw $08FF : db "here."
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Warning_Small.txt")
 DATA_512806:
-	dw $05FF : db "Throw an enemy or"
-	dw $06FF : db "an egg into the"
-	dw $07FF : db "tulip to receive"
-	dw $08FF : db "some Stars ",$F6,$F7,"."
-	dw $0EFF : db "To make it easier,"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "throw upwards by"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "holding ",$2F," on ",$CA,$CB
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "when pressing ",$1C,$1D,"."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_Tulip.txt")
 DATA_5128DC:
-	dw $05FF : db "Grab a green"
-	dw $06FF : db "watermelon and"
-	dw $07FF : db "press ",$1C,$1D," to fire"
-	dw $08FF : db "seeds."
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_Watermelon.txt")
 DATA_512918:
-	dw $05FF : db "These types of"
-	dw $06FF : db "walls may be"
-	dw $07FF : db "destroyed by"
-	dw $08FF : db "throwing eggs."
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_DirtWall.txt")
 DATA_512958:
-	dw $05FF : db "Morph into the"
-	dw $06FF : db "Mole Tank here."
-	dw $07FF : db "Dig through the"
-	dw $08FF : db "dirt wall!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/MoleTank2.txt")
 DATA_51299A:
-	dw $05FF : db "The train can"
-	dw $06FF : db "travel along the"
-	dw $07FF : db "tracks drawn on"
-	dw $08FF : db "the walls!"
-	dw $0EFF : db "Accelerate to"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "dodge enemies by"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "using ",$1C,$1D,"."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_Train.txt")
 DATA_512A3A:
-	dw $05FF : db "Are you a good"
-	dw $06FF : db "driver? It is easy!"
-	dw $07FF : db "Use ",$1A,$1B," to avoid"
-	dw $08FF : db "your enemies."
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_Car.txt")
 DATA_512A83:
-	dw $05FF : db "Do not touch the"
-	dw $06FF : db "thorns. They will"
-	dw $07FF : db "knock you out!"
-	dw $08FF : db ""
-	dw $0EFF : db "You can destroy"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the thorns by"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "hitting them with"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "eggs."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_Thorns.txt")
 DATA_512B3A:
-	dw $05FF : db "When throwing,"
-	dw $06FF : db "you may stop the"
-	dw $07FF : db "aiming cursor by"
-	dw $08FF : db "holding ",$23,$24,$25," or ",$28,$29,$2A,$3F
-	dw $0EFF : db "This can greatly"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "increase your"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "accuracy."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_EggCursor.txt")
 DATA_512BE5:
-	dw $05FF : db "We, the Mario team"
-	dw $06FF : db "poured our hearts"
-	dw $07FF : db "and souls into"
-	dw $08FF : db "creating this game"
-	dw $0EFF : db "for your"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "entertainment."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "It is full of"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "secrets. Enjoy!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/TheMarioTeam.txt")
 DATA_512CB0:
-	dw $05FF : db "Try to throw an"
-	dw $06FF : db "egg at the arrow,"
-	dw $07FF : db "and ..."
-	dw $08FF : db "Hello!"
-	dw $0EFF : db "You can get the"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "coins placed"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "underneath!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Hint_EggAtArrow.txt")
 DATA_512D47:
-	dw $05FF : db "Roses are red,"
-	dw $06FF : db "Violets are blue,"
-	dw $07FF : db "Never forget,"
-	dw $08FF : db "What I say to you."
-	dw $0EFF : db "Timing is all,"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "And aim true,"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Measure the angle",$37
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "And win, do!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Hint_AimPoem.txt")
 DATA_512E14:
-	dw $05FF : db "You can get these"
-	dw $06FF : db "coins directly,"
-	dw $07FF : db "but let's use an"
-	dw $08FF : db "egg!"
-	dw $0EFF : db "It will skip on the"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "surface of the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "water to get the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "coins."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Hint_EggSkipping.txt")
 DATA_512ED5:
-	dw $05FF : db "If Yoshi begins to"
-	dw $06FF : db "fall after hovering"
-	dw $07FF : db "press ",$1A,$1B," again to"
-	dw $08FF : db "hover some more."
-	dw $0EFF : db "Use this technique"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "and the Magnifying"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Glass to get all 5"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "red coins here."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Hint_KeepHovering.txt")
 DATA_512FB6:
-	dw $05FF : db "When you jump off"
-	dw $06FF : db "one of these"
-	dw $07FF : db "platforms, the"
-	dw $08FF : db "number shown is"
-	dw $0EFF : db "reduced by one."
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "If the number"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "reaches 0, the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "platform vanishes",$3F
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_CountdownPlatform.txt")
 DATA_513082:
-	dw $05FF : db "This is a Chomp"
-	dw $06FF : db "Rock. Roll it as"
-	dw $07FF : db "far as you can and"
-	dw $08FF : db "see what happens!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_ChompRock2.txt")
 DATA_5130D0:
-	dw $05FF : db "Hit this ",$F4,$F5," with an"
-	dw $06FF : db "egg and morph into"
-	dw $07FF : db "a helicopter."
-	dw $08FF : db "Find 5 red coins."
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Hint_WingedCloud.txt")
 DATA_51311F:
-	dw $05FF : db "This is an icy"
-	dw $06FF : db "stage. Be careful"
-	dw $07FF : db "it is slippery and"
-	dw $08FF : db "difficult to walk."
-	dw $0EFF : db "Grab a red"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "watermelon and"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "you can breathe"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "fire three times."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Use it to melt ice"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "or attack your"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "enemies."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_RedWatermelon.txt")
 DATA_513250:
-	dw $05FF : db "This is Top Secret"
-	dw $06FF : db "so LISTEN UP!"
-	dw $07FF : db "On the Level"
-	dw $08FF : db "Selection screen,"
-	dw $0EFF : db "hold ",$20,$21,$22," and press"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db $1E,$1F,", ",$1E,$1F,", ",$1C,$1D,", ",$1A,$1B
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "and ",$18,$19,"!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Hint_TopSecretCode.txt")
 DATA_5132F8:
-	dw $05FF : db "You may grab an"
-	dw $06FF : db "Arrow Lift and use"
-	dw $07FF : db "it at another"
-	dw $08FF : db "location. WAY!!!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Hint_ArrowLift.txt")
 DATA_513342:
-	dw $05FF,$31FF : db "RUN AWAY," 
-	dw $07FF : db "HURRY!!!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/HURRY.txt")
 DATA_51335D:
-	dw $05FF : db "So you're still on"
-	dw $06FF : db "the baby's side,"
-	dw $07FF : db "Yoshi-baby? Then"
-	dw $08FF : db "get a load of this!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_1-4.txt")
 DATA_5133AE:
-	dw $05FF : db "Hi there cute lil'"
-	dw $06FF : db "Yoshi! Does baby"
-	dw $07FF : db "Mario wanna go to"
-	dw $08FF : db "Bowser's Castle?"
-	dw $0EFF : db "I'll take him there"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "in a hurry!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Tee, hee, hee ..."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_1-8.txt")
 DATA_513464:
-	dw $05FF : db "Oh yes, we have"
-	dw $06FF : db "baby Mario's twin"
-	dw $07FF : db "brother at"
-	dw $08FF : db "Bowser's Castle,"
-	dw $0EFF : db "but we're not"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "handing him over"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "to the likes of"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "you!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_2-4.txt")
 DATA_513524:
-	dw $05FF : db "Yoshi-dear, that"
-	dw $06FF : db "baby is going to"
-	dw $07FF : db "cause disaster to"
-	dw $08FF : db "befall the Koopas."
-	dw $0EFF : db "So give him here"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "before you"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "accidently get"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "hurt!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_2-8.txt")
 DATA_5135EA:
-	dw $05FF : db "Great job, Yoshi!"
-	dw $06FF : db "Now, you will be"
-	dw $07FF : db "Froggy's lunch!!"
-	dw $08FF : db "Hee, hee, hee!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_3-4.txt")
 DATA_513635:
-	dw $05FF : db "Give it up Yoshi,"
-	dw $06FF : db "you cutie without"
-	dw $07FF : db "a navel! Ooopp-"
-	dw $08FF : db "forget it ..."
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_3-8.txt")
 DATA_51367F:
-	dw $06FF,$31FF : db "OH, MY" : dw $35FF,$38FF : db "!!!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_3-8Trick.txt")
 DATA_513694:
-	dw $05FF : db "Yoshi! Oh dear ..."
-	dw $06FF : db "Well, Marching"
-	dw $07FF : db "Milde will pound"
-	dw $08FF : db "you to bits!!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_4-4.txt")
 DATA_5136DD:
-	dw $05FF : db "Little Koopa come"
-	dw $06FF : db "through for me"
-	dw $07FF : db "now! Go forth and"
-	dw $08FF : db "rock Yoshi's world"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_4-8.txt")
 DATA_51372B:
-	dw $05FF : db "Aaaaah, Yoshi! To"
-	dw $06FF : db "get this far you"
-	dw $07FF : db "must be powerful,"
-	dw $08FF : db "but remember:"
-	dw $0EFF : db "This slug has no"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "weak points!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_5-4.txt")
 DATA_5137B9:
-	dw $05FF : db "You can, ah, will,"
-	dw $06FF : db "aaah, never enter"
-	dw $07FF : db "the Koopa"
-	dw $08FF : db "Kingdom!"
-	dw $0EFF : db "I banish you to"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "forever twinkle in"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the heavens,"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "BE GONE!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_5-8.txt")
 DATA_513879:
-	dw $05FF : db "Eeeeek!! How did"
-	dw $06FF : db "you? You-- I never"
-	dw $07FF : db "expected you to"
-	dw $08FF : db "get this far!"
-	dw $0EFF : db "EEEEEE!"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Now it's over!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Your game ends"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "HERE!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Kamek_6-4.txt")
 DATA_513936:
-	dw $05FF : db "YOU! are n-n-not"
-	dw $06FF : db "welcome HERE!!!"
-	dw $07FF : db "Yoshi,please hand"
-	dw $08FF : db "OVER THE BABY!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/FinalBoss_1.txt")
 DATA_513980:
-	dw $05FF : db "Oh, dear ..."
-	dw $06FF : db "What to do ..."
-	dw $07FF : db "Young Master"
-	dw $08FF : db "Bowser wakes ..."
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/FinalBoss_2.txt")
 DATA_5139C2:
-	dw $05FF : db "Kamek, it's too"
-	dw $06FF : db "noisy in here!!"
-	dw $07FF : db "I wanna go"
-	dw $08FF : db "sweepy-byyye!!!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/FinalBoss_3.txt")
 DATA_513A05:
-	dw $05FF : db "Huh??"
-	dw $06FF : db "Hmm?!!?"
-	dw $07FF : db "Mmmmm!!!!?!"
-	dw $08FF : db ""
-	dw $0EFF : db "What kind of gween"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "donkey is dat?"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Looks wyke fun!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Me wanna ri-ide!!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db ""
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db ""
-	dw $08FF,$31FF : db "MINE!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db ""
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db ""
-	dw $08FF : db "MINE!!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/FinalBoss_4.txt")
 DATA_513B10:
-	dw $05FF : db "How dare you?!"
-	dw $06FF : db "It's not fair ..."
-	dw $07FF : db "You are such a"
-	dw $08FF : db "meanie ..."
-	dw $0EFF : db "Someday ..."
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "We will be back ..."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "You'll see!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Waaaaaah ..."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/FinalBoss_Ending1.txt")
 DATA_513BD2:
-	dw $05FF : db "Yoshi, why did you"
-	dw $06FF : db "do this???"
-	dw $07FF : db "Young Master, let"
-	dw $08FF : db "me help you! Here!"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/FinalBoss_Ending2.txt")
 DATA_513C1D:
-	dw $05FF : db "  Special Flower:"
-	dw $06FF : db "Gather 5 for a"
-	dw $07FF : db "1UP! They add to"
-	dw $08FF : db "your point total."
-	dw $0EFF : db "They also add"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "flowers to the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Goal Ring"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "roulette!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_Flower.txt")
 DATA_513CE0:
-	dw $05FF : db "This is the"
-	dw $06FF : db "Middle-Ring for"
-	dw $07FF : db "this level. You may"
-	dw $08FF : db "continue from here"
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_MiddleRing.txt")
 DATA_513D2B:
-	dw $05FF : db "Grab baby Mario!"
-	dw $06FF : db "Jump or even use"
-	dw $07FF : db "your tongue to"
-	dw $08FF : db "touch him."
-	dw $0EFF : db "Throw eggs at him!"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "If the Timer drops"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "to 0, he will be"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "kidnapped!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
-DATA_513DF8:
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Tutorial_YoshiDamaged.txt")
+Msg_Nothing:
 	dw $FFFF
-
 DATA_513DFA:
-	dw $05FF : db ""
-	dw $06FF : db "        THROWING"
-	dw $07FF : db "        BALLOONS"
-	dw $08FF : db ""
-	dw $0EFF : db "To throw the"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "balloon, key in the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "button sequences"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "as shown."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "The game time is"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "limited. If the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "balloon pops on"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "you, then you lose"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db ""
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Collect an item"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "if you win!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Battle_ThrowingBalloons.txt")
 DATA_513F84:
-	dw $05FF : db ""
-	dw $06FF : db "     GATHER COINS"
-	dw $07FF : db ""
-	dw $08FF : db ""
-	dw $0EFF : db "Grab more coins"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "than your enemy"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "before the time"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "reaches 0."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Battle_GatherCoins.txt")
 DATA_514022:
-	dw $05FF : db ""
-	dw $06FF : db "         POPPING"
-	dw $07FF : db "        BALLOONS"
-	dw $08FF : db ""
-	dw $0EFF : db "Pound the ground"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "to pop balloons."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Find the correct"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "one to win!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Battle_PoppingBalloons.txt")
 DATA_5140D3:
-	dw $05FF : db ""
-	dw $06FF : db "  WATERMELON SEED"
-	dw $07FF : db " SPITTING CONTEST"
-	dw $08FF : db ""
-	dw $0EFF : db "Grab a watermelon"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "and shoot your"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "enemy as quickly"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "as you can."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Reduce your"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "enemy's power"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "meter to 0"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "to win!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Battle_SeedSpitting.txt")
 DATA_5141F8:
-	dw $05FF : db "      ",$D5,$D6,$D7 : dw $3DFF,$3EFF,$3FFF
-	dw $06FF : db "Try this stage"
-	dw $07FF : db "again?"
-	dw $08FF : db "  ",$D4,"Yes      No"
-	dw $50FF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Prompt_TryAgain.txt")
 DATA_514235:
-	dw $05FF : db "      ",$D5,$D6,$D7 : dw $3DFF,$3EFF,$3FFF
-	dw $06FF : db "Re-start from the"
-	dw $07FF : db "Middle-Ring?"
-	dw $08FF : db "  ",$D4,"Yes      No"
-	dw $50FF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Prompt_TryFromMiddle.txt")
 DATA_51427B:
-	dw $05FF : db "      FLIP CARDS"
-	dw $06FF : db ""
-	dw $07FF : db "     Item Chance!"
-	dw $08FF : db ""
-	dw $0EFF : db "Aim with the"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "cursor and press"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db $18,$19,". Collect the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "item shown."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "If you get Kamek,"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "you lose all the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "items. Hit ",$D2,"Exit",$D2
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "to quit."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Minigame_Flip.txt")
 DATA_5143AC:
-	dw $05FF : db "     SCRATCH AND"
-	dw $06FF : db "          MATCH"
-	dw $07FF : db ""
-	dw $08FF : db "    1 UP  Chance!"
-	dw $0EFF : db "Scratch 3 boxes!"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Uncover Marios to"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "gain 1 UPs!!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Scratch On!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "3 Toadies - 0 UP"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "1 Mario     - 1 UP"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "2 Marios   - 2 UP"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "3 Marios   - 5 UP"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Minigame_Scratch.txt")
 DATA_5144F8:
-	dw $05FF : db "     SLOT MACHINE"
-	dw $06FF : db ""
-	dw $07FF : db "     1 UP  Chance!"
-	dw $08FF : db ""
-	dw $0EFF : db "A chance to earn"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "extra lives. Press"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db $18,$19," to stop each"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "tumbler!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Minigame_Slot.txt")
 DATA_5145AA:
-	dw $05FF : db "         ROULETTE"
-	dw $06FF : db ""
-	dw $07FF : db "      1 UP Chance!"
-	dw $08FF : db ""
-	dw $0EFF : db "Set the number of"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Yoshies with ",$CA,$CB,"."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Press ",$18,$19," to start"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "and ",$18,$19," to stop."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "The combination of"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the 2 tumblers and"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "number of Yoshies"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "give you 1 UPs!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "You can not play"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "this game if you"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "have only 1 Yoshi"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "remaining."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Minigame_Roulette.txt")
 DATA_514777:
-	dw $05FF : db "    DRAWING LOTS"
-	dw $06FF : db ""
-	dw $07FF : db "    Item  Chance!"
-	dw $08FF : db ""
-	dw $0EFF : db "A chance to gain"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "an item. Flip only"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "1 card. Receive"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "the item shown!"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Minigame_Draw.txt")
 DATA_51482E:
-	dw $05FF : db "    MATCH  CARDS"
-	dw $06FF : db ""
-	dw $07FF : db "    Item  Chance!"
-	dw $08FF : db ""
-	dw $0EFF : db "Flip cards over in"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "pairs. Receive the"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "items shown on"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "matched pairs only"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "Continue flipping"
-	dw $0AFF
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "until you have"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "failed to match"
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0EFF : db "twice."
-	dw $12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF,$12FF
-	dw $0FFF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Minigame_Match.txt")
 DATA_514967:
-	dw $05FF : db ""
-	dw $06FF : db " ",$D4," Continue"
-	dw $07FF : db "    Exit"
-	dw $08FF : db ""
-	dw $51FF,$FFFF
-
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Prompt_Continue.txt")
 DATA_514986:
-	dw $05FF : db "Would you like to"
-	dw $06FF : db "continue?"
-	dw $07FF : db ""
-	dw $08FF : db "    Yes      No"
-	dw $0EFF : db $D4
-	dw $FFFF
+	%YI_InsertMsgBoxText("../Strings/!Msg_Subfolder/Prompt_GameOver.txt")
 
 DATA_5149BC:
 	dw DATA_514A73
@@ -74668,6 +74060,9 @@ DATA_5149BC:
 	dw DATA_51532F
 	dw DATA_51532F
 
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	incsrc "Strings/YI_br/LevelNameStrings_br.asm"
+else
 DATA_514A4C:
 	db $FF,$00,"      Welcome To"
 	db $FE,$10,$00,"   Yoshi's Island"
@@ -74946,7 +74341,7 @@ DATA_51532F:
 	db $FF,$1E,$57,$9A,$61,$C9,$50,$51,$88,$5F,$87
 	db $FE,$10,$19,$C4,$00,$20,$41,$0C,$14,$02,$1D,$0F,$C5
 	db $FD
-
+endif
 cleartable
 %SuperFXBankEnd(!FXBank51)
 
@@ -74964,12 +74359,19 @@ DATA_520000:
 ;#############################################################################################################
 
 %SuperFXBankStart(!FXBank53)
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+DATA_530000:
+	incbin "Graphics/Custom/SuperFX/DATA_530000.bin"
 
+DATA_538000:
+	incbin "Graphics/Custom/SuperFX/DATA_538000.bin"
+else
 DATA_530000:
 	incbin "Graphics/SuperFX/DATA_530000.bin"
 
 DATA_538000:
 	incbin "Graphics/SuperFX/DATA_538000.bin"
+endif
 
 DATA_53C000:
 	incbin "Graphics/GFX_53C000.bin"
@@ -74985,7 +74387,11 @@ DATA_540000:					; Note: This must be located at the start of a HiROM bank
 	incbin "Graphics/SuperFX/DATA_540000.bin"
 
 DATA_548000:
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	incbin "Graphics/Custom/SuperFX/DATA_548000.bin"
+else
 	incbin "Graphics/SuperFX/DATA_548000.bin"
+endif
 
 %SuperFXBankEnd(!FXBank54)
 
@@ -74998,7 +74404,11 @@ DATA_550000:
 	incbin "Graphics/SuperFX/DATA_550000.bin"
 
 DATA_558000:
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	incbin "Graphics/Custom/SuperFX/DATA_558000.bin"
+else
 	incbin "Graphics/SuperFX/DATA_558000.bin"
+endif
 
 %SuperFXBankEnd(!FXBank55)
 

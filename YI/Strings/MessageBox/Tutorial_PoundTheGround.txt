@@ -1,0 +1,17 @@
+{n1}Pound The Ground:
+{D2n2}
+
+{n:}Press [DOWN] on [DPAD]{P}
+{Scr2}
+{n:}while in the air.
+{Scr2}
+{n:}Yoshi will "Pound
+{Scr2}
+{n:}The Ground." This
+{Scr2}
+
+{n:}has many uses,{P}
+{Scr2}
+{n:}and it rocks!
+{Scr2}
+{End0F}

@@ -1,0 +1,5 @@
+{n1}      [Yx]{Life}
+{n2}Tentar a fase
+{n3}novamente?
+{n4}  [>]Sim       Não
+{End50}

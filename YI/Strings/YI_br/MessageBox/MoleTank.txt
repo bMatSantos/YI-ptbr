@@ -1,0 +1,5 @@
+{n1}Torne-se um
+{n2}Toupeiramóvel e
+{n3}cave para achar 2
+{n4}moedas vermelhas!
+{End0F}

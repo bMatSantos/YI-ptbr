@@ -1,0 +1,32 @@
+{n1}          ROLETA
+{n2}
+{n3}   Chance de 1VD!
+{n4}
+
+{n:}Escolha o número{P}
+{Scr2}
+{n:}de vidas com o [DPAD].
+{Scr2}
+{n:}Aperte [A] para
+{Scr2}
+{n:}começar e parar.
+{Scr2}
+
+{n:}A combinação dos 2{P}
+{Scr2}
+{n:}resultados com o
+{Scr2}
+{n:}nº de vidas lhe
+{Scr2}
+{n:}dará vidas extras!
+{Scr2}
+
+{n:}Você não pode{P}
+{Scr2}
+{n:}jogar este jogo
+{Scr2}
+{n:}se tiver só 1
+{Scr2}
+{n:}vida restando.
+{Scr2}
+{End0F}

@@ -1,0 +1,14 @@
+{n1}Chomp Rock is a
+{n2}useful object.
+{n3}Push it and it will
+{n4}roll, bowling over
+
+{n:}your enemies. If it{P}
+{Scr2}
+{n:}gets stuck, stand
+{Scr2}
+{n:}on one edge and it
+{Scr2}
+{n:}will start rolling!
+{Scr2}
+{End0F}

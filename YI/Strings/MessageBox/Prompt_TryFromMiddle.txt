@@ -1,0 +1,5 @@
+{n1}      [Yx]{Life}
+{n2}Re-start from the
+{n3}Middle-Ring?
+{n4}  [>]Yes      No
+{End50}

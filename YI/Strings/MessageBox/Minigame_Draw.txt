@@ -1,0 +1,14 @@
+{n1}    DRAWING LOTS
+{n2}
+{n3}    Item  Chance!
+{n4}
+
+{n:}A chance to gain{P}
+{Scr2}
+{n:}an item. Flip only
+{Scr2}
+{n:}1 card. Receive
+{Scr2}
+{n:}the item shown!
+{Scr2}
+{End0F}

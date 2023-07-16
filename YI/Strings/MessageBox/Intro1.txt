@@ -1,0 +1,14 @@
+{n1}This paradise is
+{n2}Yoshi's Island,
+{n3}where all the
+{n4}Yoshies live.
+
+{n:}They are all in an{P}
+{Scr2}
+{n:}uproar over the
+{Scr2}
+{n:}baby that fell
+{Scr2}
+{n:}from the sky.
+{Scr2}
+{End0F}

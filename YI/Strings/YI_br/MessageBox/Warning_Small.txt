@@ -1,0 +1,5 @@
+{n1}        - Aviso -
+{n2}Você precisa ser
+{n3}pequeno para
+{n4}passar por aqui.
+{End0F}

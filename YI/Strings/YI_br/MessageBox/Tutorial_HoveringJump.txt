@@ -1,0 +1,5 @@
+{n1}- Salto Pairante -
+{n2}Segure [B] e você
+{n3}poderá pairar no
+{n4}ar por um tempo.
+{End0F}

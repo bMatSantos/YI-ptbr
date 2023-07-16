@@ -1,0 +1,5 @@
+{n1}Little Koopa come
+{n2}through for me
+{n3}now! Go forth and
+{n4}rock Yoshi's world
+{End0F}

@@ -1,0 +1,23 @@
+{n1}
+{n2}  WATERMELON SEED
+{n3} SPITTING CONTEST
+{n4}
+
+{n:}Grab a watermelon{P}
+{Scr2}
+{n:}and shoot your
+{Scr2}
+{n:}enemy as quickly
+{Scr2}
+{n:}as you can.
+{Scr2}
+
+{n:}Reduce your{P}
+{Scr2}
+{n:}enemy's power
+{Scr2}
+{n:}meter to 0
+{Scr2}
+{n:}to win!
+{Scr2}
+{End0F}

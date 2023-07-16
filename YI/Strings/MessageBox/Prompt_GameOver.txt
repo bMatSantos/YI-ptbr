@@ -1,0 +1,5 @@
+{n1}Would you like to
+{n2}continue?
+{n3}
+{n4}    Yes      No
+{n:}[>]

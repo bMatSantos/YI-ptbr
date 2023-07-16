@@ -1,0 +1,14 @@
+{n1}Sim,sim,o irmão
+{n2}do Mario está lá
+{n3}no Castelo do
+{n4}Bauser...
+
+{n:}Mas nós JAMAIS{P}
+{Scr2}
+{n:}iremos devolvê-lo
+{Scr2}
+{n:}para tipos como
+{Scr2}
+{n:}vocês!
+{Scr2}
+{End0F}

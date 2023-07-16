@@ -1,0 +1,5 @@
+{n1}M-M-Mestre!
+{n2}Como se atrevem??
+{n3}Jovem Mestre!
+{n4}Deixe-me ajudá-lo!
+{End0F}

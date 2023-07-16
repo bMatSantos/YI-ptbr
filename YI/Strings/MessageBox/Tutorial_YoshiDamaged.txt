@@ -1,0 +1,14 @@
+{n1}Grab baby Mario!
+{n2}Jump or even use
+{n3}your tongue to
+{n4}touch him.
+
+{n:}Throw eggs at him!{P}
+{Scr2}
+{n:}If the Timer drops
+{Scr2}
+{n:}to 0, he will be
+{Scr2}
+{n:}kidnapped!!
+{Scr2}
+{End0F}

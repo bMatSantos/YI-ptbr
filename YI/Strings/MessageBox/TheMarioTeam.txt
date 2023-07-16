@@ -1,0 +1,14 @@
+{n1}We, the Mario team
+{n2}poured our hearts
+{n3}and souls into
+{n4}creating this game
+
+{n:}for your{P}
+{Scr2}
+{n:}entertainment.
+{Scr2}
+{n:}It is full of
+{Scr2}
+{n:}secrets. Enjoy!
+{Scr2}
+{End0F}

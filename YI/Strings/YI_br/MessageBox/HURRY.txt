@@ -1,0 +1,3 @@
+{n1}{S2}RÁPIDO,
+{n3}CORRE!!!
+{End0F}

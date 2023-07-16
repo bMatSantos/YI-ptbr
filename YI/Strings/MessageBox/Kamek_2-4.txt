@@ -1,0 +1,14 @@
+{n1}Oh yes, we have
+{n2}baby Mario's twin
+{n3}brother at
+{n4}Bowser's Castle,
+
+{n:}but we're not{P}
+{Scr2}
+{n:}handing him over
+{Scr2}
+{n:}to the likes of
+{Scr2}
+{n:}you!
+{Scr2}
+{End0F}

@@ -1,0 +1,14 @@
+{n1}Hein?! Como que
+{n2}você...? Não creio
+{n3}que você chegou
+{n4}tão longe!
+
+{n:}CRÁÁÁÁÁ!!{P}
+{Scr2}
+{n:}Agora já chega! É
+{Scr2}
+{n:}o FIM do seu JOGO!
+{Scr2}
+{n:}Esmague-o!!
+{Scr2}
+{End0F}

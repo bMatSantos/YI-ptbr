@@ -1,0 +1,14 @@
+{n1}Do not touch the
+{n2}thorns. They will
+{n3}knock you out!
+{n4}
+
+{n:}You can destroy{P}
+{Scr2}
+{n:}the thorns by
+{Scr2}
+{n:}hitting them with
+{Scr2}
+{n:}eggs.
+{Scr2}
+{End0F}

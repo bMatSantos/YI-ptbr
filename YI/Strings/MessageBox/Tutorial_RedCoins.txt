@@ -1,0 +1,12 @@
+{n1}In each level,
+{n2}20 red coins are
+{n3}hidden among the
+{n4}yellow ones.
+
+{n:}They each add 1{P}
+{Scr2}
+{n:}point to your
+{Scr2}
+{n:}score.
+{Scr2}
+{End0F}

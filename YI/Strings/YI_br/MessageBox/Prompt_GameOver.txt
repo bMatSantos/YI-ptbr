@@ -1,0 +1,5 @@
+{n1}   Gostaria de
+{n2}   continuar?
+{n3}
+{n4}    Sim       Não
+{n:}[>]

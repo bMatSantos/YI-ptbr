@@ -1,0 +1,14 @@
+{n1}Eeeeek!! How did
+{n2}you? You-- I never
+{n3}expected you to
+{n4}get this far!
+
+{n:}EEEEEE!{P}
+{Scr2}
+{n:}Now it's over!
+{Scr2}
+{n:}Your game ends
+{Scr2}
+{n:}HERE!!
+{Scr2}
+{End0F}

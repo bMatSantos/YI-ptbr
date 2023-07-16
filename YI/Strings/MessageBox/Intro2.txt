@@ -1,0 +1,32 @@
+{n1}Wait! The baby
+{n2}seems to know
+{n3}where he wants to
+{n4}go ...
+
+{n:}The bond between{P}
+{Scr2}
+{n:}the twins informs
+{Scr2}
+{n:}each of them where
+{Scr2}
+{n:}the other one is.
+{Scr2}
+
+{n:}The Yoshies decide{P}
+{Scr2}
+{n:}to carry the baby
+{Scr2}
+{n:}to his destination
+{Scr2}
+{n:}via a relay system[.]
+{Scr2}
+
+{n:}Now begins a new{P}
+{Scr2}
+{n:}adventure for the
+{Scr2}
+{n:}Yoshies and baby
+{Scr2}
+{n:}Mario.
+{Scr2}
+{End0F}

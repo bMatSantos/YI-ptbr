@@ -1,0 +1,5 @@
+{n1}Morph into the
+{n2}Mole Tank here.
+{n3}Dig like mad to
+{n4}find 2 red coins!
+{End0F}

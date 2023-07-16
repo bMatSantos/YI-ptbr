@@ -1,0 +1,14 @@
+{n1}     SLOT MACHINE
+{n2}
+{n3}     1 UP  Chance!
+{n4}
+
+{n:}A chance to earn{P}
+{Scr2}
+{n:}extra lives. Press
+{Scr2}
+{n:}[A] to stop each
+{Scr2}
+{n:}tumbler!
+{Scr2}
+{End0F}

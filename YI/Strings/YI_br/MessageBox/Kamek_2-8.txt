@@ -1,0 +1,14 @@
+{n1}Yoshizinho,este
+{n2}bebê só trará
+{n3}desastre aos
+{n4}Kupas!
+
+{n:}Entregue-o agora,{P}
+{Scr2}
+{n:}antes que você
+{Scr2}
+{n:}se machuque!
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

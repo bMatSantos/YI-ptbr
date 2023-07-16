@@ -1,0 +1,14 @@
+{n1}
+{n2}   ESTOURA-BALÃO
+{n3}
+{n4}
+
+{n:}Dê um Salto Bomba{P}
+{Scr2}
+{n:}para estourar os
+{Scr2}
+{n:}balões.Encontre o
+{Scr2}
+{n:}correto e vença!
+{Scr2}
+{End0F}

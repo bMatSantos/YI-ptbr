@@ -877,6 +877,8 @@
 !Define_YI_Map_LevelsPerWorld = $0C
 !Define_YI_Map_ExtraLevels = $08
 !Define_YI_Map_BonusChallengeLevels = !Define_YI_Map_ExtraLevels+$01
+!Define_YI_Map_PERFECT_ByteLength = YI_Map_PERFECT_Graphics_End-YI_Map_PERFECT_Graphics-$02
+!Define_YI_Map_PERFECT_LettersLength = (YI_Map_PERFECT_Graphics_End-YI_Map_PERFECT_Graphics)/2
 
 !Define_YI_LevelID_MakeEggsThrowEggs = $00
 !Define_YI_LevelID_WatchOutBelow = $01
@@ -951,3 +953,11 @@
 ;$46
 ;$47
 !Define_YI_LevelID_PrologueIntro = $80
+
+!GFX_LZ16 = $8000
+
+if !Define_Global_HackROMToAssemble&(!ROM_HACK_YI_br|!ROM_HACK_YI_br_v1) != $00 ;[BR]
+	!Define_YI_GOALLetters_XPosAnchor = $00FF
+else
+!Define_YI_GOALLetters_XPosAnchor = $00E0
+endif

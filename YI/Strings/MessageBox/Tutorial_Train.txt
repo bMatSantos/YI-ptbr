@@ -1,0 +1,12 @@
+{n1}The train can
+{n2}travel along the
+{n3}tracks drawn on
+{n4}the walls!
+
+{n:}Accelerate to{P}
+{Scr2}
+{n:}dodge enemies by
+{Scr2}
+{n:}using [Y].
+{Scr2}
+{End0F}

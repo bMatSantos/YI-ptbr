@@ -1,0 +1,5 @@
+{n1}Você se lembra?
+{n2}Aperte [Y] e [DOWN] no
+{n3}[DPAD] para botar ovo;
+{n4}jogue-o com [A]!
+{End0F}

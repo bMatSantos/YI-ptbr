@@ -1,0 +1,23 @@
+{n1}  JOGO DA MEMÓRIA
+{n2}
+{n3}   Chance de item!
+{n4}
+
+{n:}Vire duas cartas{P}
+{Scr2}
+{n:}idênticas e então
+{Scr2}
+{n:}receba o item
+{Scr2}
+{n:}mostrado.
+{Scr2}
+
+{n:}Continue virando{P}
+{Scr2}
+{n:}até errar duas
+{Scr2}
+{n:}vezes.
+{Scr2}
+{n:}
+{Scr2}
+{End0F}

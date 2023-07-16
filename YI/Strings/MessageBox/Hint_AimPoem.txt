@@ -1,0 +1,14 @@
+{n1}Roses are red,
+{n2}Violets are blue,
+{n3}Never forget,
+{n4}What I say to you.
+
+{n:}Timing is all,{P}
+{Scr2}
+{n:}And aim true,
+{Scr2}
+{n:}Measure the angle[,]
+{Scr2}
+{n:}And win, do!
+{Scr2}
+{End0F}

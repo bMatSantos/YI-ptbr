@@ -1,0 +1,14 @@
+{n1}Throw an enemy or
+{n2}an egg into the
+{n3}tulip to receive
+{n4}some Stars [*].
+
+{n:}To make it easier,{P}
+{Scr2}
+{n:}throw upwards by
+{Scr2}
+{n:}holding [UP] on [DPAD]
+{Scr2}
+{n:}when pressing [Y].
+{Scr2}
+{End0F}

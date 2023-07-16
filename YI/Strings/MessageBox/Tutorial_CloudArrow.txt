@@ -1,0 +1,5 @@
+{n1}Hit [CLDR] with an egg
+{n2}and it will fly off
+{n3}in the direction [CLDR]
+{n4}currently points.
+{End0F}

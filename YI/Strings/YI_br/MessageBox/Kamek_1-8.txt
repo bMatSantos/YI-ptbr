@@ -1,0 +1,14 @@
+{n1}Oi,Yoshizinho,o
+{n2}Bebê Mario quer ir
+{n3}pro Castelo do
+{n4}Bauser,é?
+
+{n:}Não se preocupe!{P}
+{Scr2}
+{n:}Eu posso levá-lo
+{Scr2}
+{n:}até lá!
+{Scr2}
+{n:}Hi hi hi...
+{Scr2}
+{End0F}

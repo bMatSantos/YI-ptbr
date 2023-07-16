@@ -1,0 +1,14 @@
+{n1}Use [STRT] para ver
+{n2}sua pontuação.
+{n3}Para usar os
+{n4}itens especiais,
+
+{n:}Use [LEFT] e [RGHT] no [DPAD]{P}
+{Scr2}
+{n:}para escolher um
+{Scr2}
+{n:}item e aperte [A].
+{Scr2}
+{n:}Saia com [B].
+{Scr2}
+{End0F}

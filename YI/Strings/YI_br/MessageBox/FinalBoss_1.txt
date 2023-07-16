@@ -1,0 +1,5 @@
+{n1}VOCÊ... v-veio
+{n2}até AQUI?!
+{n3}Pois aproveite e
+{n4}ME DÊ O BEBÊ!!!
+{End0F}

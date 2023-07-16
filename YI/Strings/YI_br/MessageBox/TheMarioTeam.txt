@@ -1,0 +1,14 @@
+{n1}O que acha deste
+{n2}jogo? Nós da
+{n3}Equipe Mario demos
+{n4}o nosso melhor.
+
+{n:}O jogo está cheio{P}
+{Scr2}
+{n:}de segredinhos...
+{Scr2}
+{n:}Tente achar todos
+{Scr2}
+{n:}eles!
+{Scr2}
+{End0F}
